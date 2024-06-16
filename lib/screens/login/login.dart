@@ -2,18 +2,18 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'sign_up_controller.dart';
+import 'login_controller.dart';
 
-class SignUp extends StatelessWidget {
-  const SignUp({super.key});
+class Login extends StatelessWidget {
+  const Login({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final xController = Get.put(SignUpController());
+    final xController = Get.put(LoginController());
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sign up'),
+        title: const Text('Login'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -21,20 +21,6 @@ class SignUp extends StatelessWidget {
           key: xController.formKey,
           child: Column(
             children: [
-              TextFormField(
-                controller: xController.usernameController,
-                decoration: const InputDecoration(
-                  labelText: 'Username',
-                ),
-                focusNode: xController.usernameFocusNode,
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Username can\'t be empty';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
               TextFormField(
                 controller: xController.emailController,
                 decoration: const InputDecoration(
@@ -52,66 +38,55 @@ class SignUp extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               TextFormField(
-                controller: xController.createPasswordController,
+                controller: xController.passwordController,
                 obscureText: true,
                 decoration: const InputDecoration(
-                  labelText: 'Create Password',
+                  labelText: 'Password',
                 ),
-                focusNode: xController.createPasswordFocusNode,
+                focusNode: xController.passwordFocusNode,
                 validator: (value) {
                   if (value == null || value.trim().length < 6) {
                     return 'Password should be minimum 6 characters.';
-                  }
-                  if (value.trim() !=
-                      xController.confirmPasswordController.text.trim()) {
-                    return 'Password doesn\'t match.';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: xController.confirmPasswordController,
-                obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: 'Confirm Password',
-                ),
-                focusNode: xController.confirmPasswordFocusNode,
-                validator: (value) {
-                  if (value == null || value.trim().length < 6) {
-                    return 'Password should be minimum 6 characters.';
-                  }
-                  if (value.trim() !=
-                      xController.createPasswordController.text.trim()) {
-                    return 'Password doesn\'t match.';
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 24),
+              InkWell(
+                onTap: () {
+                  xController.goToForgotPasswordPage(context);
+                },
+                child: Text(
+                  'Forgot Password?',
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                ),
+              ),
+              const SizedBox(height: 24),
               Obx(
                 () {
                   return ElevatedButton(
-                    onPressed: () => xController.signUp(context),
+                    onPressed: () => xController.login(context),
                     child: xController.isLoading.value
                         ? const Padding(
                             padding: EdgeInsets.all(8.0),
                             child: CircularProgressIndicator(),
                           )
-                        : const Text('Sign Up'),
+                        : const Text('Login'),
                   );
                 },
               ),
               const SizedBox(height: 16),
               RichText(
                 text: TextSpan(
-                  text: 'Already have an account? ',
+                  text: 'Don\'t have an account? ',
                   children: [
                     TextSpan(
-                      text: 'Login',
+                      text: 'Signup',
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          xController.goToLoginPage(context);
+                          xController.goToSignUpPage(context);
                         },
                       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                             color: Theme.of(context).colorScheme.primary,

@@ -1,9 +1,9 @@
-import 'package:amazon/screens/login/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/utils.dart';
+import '../login/login.dart';
 
 class SignUpController extends GetxController {
   final formKey = GlobalKey<FormState>();
@@ -57,7 +57,6 @@ class SignUpController extends GetxController {
 
   Future<void> signUp(BuildContext context) async {
     final isValid = formKey.currentState!.validate();
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
     clearFocus();
     if (!isValid) {
       return;
@@ -75,24 +74,18 @@ class SignUpController extends GetxController {
 
       print('User Credentials : $userCrdentials');
 
-      scaffoldMessenger.showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Successfully created account',
-          ),
-        ),
+      showSnackbar(
+        context,
+        content: 'Successfully created account',
       );
 
       clearformFields();
       goToLoginPage(context);
     } on FirebaseAuthException catch (e) {
-      scaffoldMessenger.clearSnackBars();
-      scaffoldMessenger.showSnackBar(
-        SnackBar(
-          content: Text(
+      showSnackbar(
+        context,
+        content:
             'Error occurred while signing up! Please try again later ${e.message}',
-          ),
-        ),
       );
     }
 
