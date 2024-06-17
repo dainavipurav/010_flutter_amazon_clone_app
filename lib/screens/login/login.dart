@@ -26,6 +26,7 @@ class Login extends StatelessWidget {
                 decoration: const InputDecoration(
                   labelText: 'Email',
                 ),
+                keyboardType: TextInputType.emailAddress,
                 focusNode: xController.emailFocusNode,
                 validator: (value) {
                   if (value == null ||

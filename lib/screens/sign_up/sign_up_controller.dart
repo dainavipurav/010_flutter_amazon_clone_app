@@ -74,6 +74,9 @@ class SignUpController extends GetxController {
 
       print('User Credentials : $userCrdentials');
 
+      User user = userCrdentials.user!;
+      await user.updateDisplayName(usernameController.text);
+
       showSnackbar(
         context,
         content: 'Successfully created account',
