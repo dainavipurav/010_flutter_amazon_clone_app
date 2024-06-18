@@ -44,15 +44,21 @@ class SignUpController extends GetxController {
         password: createPasswordController.text,
       );
 
-      print('User Credentials : $userCrdentials');
-
       User user = userCrdentials.user!;
       await user.updateDisplayName(usernameController.text);
 
+      print('User Credentials : $userCrdentials');
+
+      await saveUserData(
+        userCrdentials: userCrdentials,
+        userPassword: createPasswordController.text,
+      );
+
+      goToLoginPage(context);
+
       showSnackbar(
         context,
-        content:
-            'Successfully created account with username as ${user.displayName}',
+        content: 'Successfully created account',
       );
 
       clearFocus();

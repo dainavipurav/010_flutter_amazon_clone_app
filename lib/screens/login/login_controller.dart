@@ -45,6 +45,15 @@ class LoginController extends GetxController {
 
       print('User Credentials : $userCrdentials');
 
+      await saveUserData(
+        userCrdentials: userCrdentials,
+        userPassword: passwordController.text,
+      );
+
+      await setLoginKey(true);
+
+      goToDashoardPage(context);
+
       showSnackbar(
         context,
         content: 'Logged in successfully.',
