@@ -76,6 +76,7 @@ class ForgotPasswordController extends GetxController {
 
   void disposeFormFields() {
     clearformFields();
+    clearFocus();
     disposeFocusNodes();
     disposeTextEditingControllers();
   }

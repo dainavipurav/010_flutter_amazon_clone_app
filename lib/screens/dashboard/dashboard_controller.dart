@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/utils.dart';
-import '../sign_up/sign_up.dart';
 
 class DashboardController extends GetxController {
   void logout(BuildContext context) async {
@@ -13,13 +12,6 @@ class DashboardController extends GetxController {
       showSnackbar(
         context,
         content: 'Logged out successfully',
-      );
-
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => const SignUp(),
-        ),
-        ModalRoute.withName('/'),
       );
     } on FirebaseAuthException catch (e) {
       showSnackbar(

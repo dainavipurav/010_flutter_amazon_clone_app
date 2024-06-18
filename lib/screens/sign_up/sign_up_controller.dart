@@ -77,11 +77,11 @@ class SignUpController extends GetxController {
 
       showSnackbar(
         context,
-        content: 'Successfully created account',
+        content:
+            'Successfully created account with username as ${user.displayName}',
       );
 
       disposeFormFields();
-      goToLoginPage(context);
     } on FirebaseAuthException catch (e) {
       showSnackbar(
         context,
@@ -112,6 +112,7 @@ class SignUpController extends GetxController {
 
   void disposeFormFields() {
     clearformFields();
+    clearFocus();
     disposeFocusNodes();
     disposeTextEditingControllers();
   }

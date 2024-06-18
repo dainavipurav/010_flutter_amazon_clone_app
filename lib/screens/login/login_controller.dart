@@ -59,16 +59,7 @@ class LoginController extends GetxController {
         content: 'Logged in successfully.',
       );
 
-      clearformFields();
-
       disposeFormFields();
-
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (context) => const Dashboard(),
-        ),
-        ModalRoute.withName('/'),
-      );
     } on FirebaseAuthException catch (e) {
       showSnackbar(
         context,
@@ -105,8 +96,18 @@ class LoginController extends GetxController {
     );
   }
 
+  void goToDashoardPage(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(
+        builder: (context) => const Dashboard(),
+      ),
+      ModalRoute.withName('/'),
+    );
+  }
+
   void disposeFormFields() {
     clearformFields();
+    clearFocus();
     disposeFocusNodes();
     disposeTextEditingControllers();
   }
