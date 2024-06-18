@@ -20,8 +20,7 @@ class LoginController extends GetxController {
 
   @override
   void dispose() {
-    disposeTextEditingControllers();
-    disposeFocusNodes();
+    disposeFormFields();
     super.dispose();
   }
 
@@ -61,6 +60,8 @@ class LoginController extends GetxController {
       );
 
       clearformFields();
+
+      disposeFormFields();
 
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
@@ -102,6 +103,13 @@ class LoginController extends GetxController {
         builder: (context) => const ForgotPassword(),
       ),
     );
+  }
+
+  void disposeFormFields() {
+    clearformFields();
+    disposeFocusNodes();
+    disposeTextEditingControllers();
+    Get.delete<LoginController>();
   }
 
   void disposeFocusNodes() {

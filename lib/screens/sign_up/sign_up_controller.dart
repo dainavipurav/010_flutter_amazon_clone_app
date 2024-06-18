@@ -22,9 +22,7 @@ class SignUpController extends GetxController {
 
   @override
   void dispose() {
-    clearformFields();
-    disposeTextEditingControllers();
-    disposeFocusNodes();
+    disposeFormFields();
 
     super.dispose();
   }
@@ -82,7 +80,7 @@ class SignUpController extends GetxController {
         content: 'Successfully created account',
       );
 
-      clearformFields();
+      disposeFormFields();
       goToLoginPage(context);
     } on FirebaseAuthException catch (e) {
       showSnackbar(
@@ -110,6 +108,13 @@ class SignUpController extends GetxController {
         builder: (context) => const Login(),
       ),
     );
+  }
+
+  void disposeFormFields() {
+    clearformFields();
+    disposeFocusNodes();
+    disposeTextEditingControllers();
+    Get.delete<SignUpController>();
   }
 
   void disposeFocusNodes() {

@@ -16,8 +16,7 @@ class ForgotPasswordController extends GetxController {
 
   @override
   void dispose() {
-    disposeTextEditingControllers();
-    disposeFocusNodes();
+    disposeFormFields();
     super.dispose();
   }
 
@@ -73,6 +72,13 @@ class ForgotPasswordController extends GetxController {
       ),
       ModalRoute.withName('/'),
     );
+  }
+
+  void disposeFormFields() {
+    clearformFields();
+    disposeFocusNodes();
+    disposeTextEditingControllers();
+    Get.delete<ForgotPasswordController>();
   }
 
   void disposeFocusNodes() {
