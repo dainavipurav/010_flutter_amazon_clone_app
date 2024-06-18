@@ -109,7 +109,6 @@ class LoginController extends GetxController {
     clearformFields();
     disposeFocusNodes();
     disposeTextEditingControllers();
-    Get.delete<LoginController>();
   }
 
   void disposeFocusNodes() {

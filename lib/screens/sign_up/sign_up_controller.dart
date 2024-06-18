@@ -114,7 +114,6 @@ class SignUpController extends GetxController {
     clearformFields();
     disposeFocusNodes();
     disposeTextEditingControllers();
-    Get.delete<SignUpController>();
   }
 
   void disposeFocusNodes() {

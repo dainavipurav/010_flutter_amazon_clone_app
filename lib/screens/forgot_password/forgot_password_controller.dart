@@ -78,7 +78,6 @@ class ForgotPasswordController extends GetxController {
     clearformFields();
     disposeFocusNodes();
     disposeTextEditingControllers();
-    Get.delete<ForgotPasswordController>();
   }
 
   void disposeFocusNodes() {
