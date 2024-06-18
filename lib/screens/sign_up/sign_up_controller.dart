@@ -27,32 +27,6 @@ class SignUpController extends GetxController {
     super.dispose();
   }
 
-  void clearFocus() {
-    if (usernameFocusNode.hasFocus) {
-      usernameFocusNode.unfocus();
-    }
-    if (emailFocusNode.hasFocus) {
-      emailFocusNode.unfocus();
-    }
-    if (createPasswordFocusNode.hasFocus) {
-      createPasswordFocusNode.unfocus();
-    }
-    if (confirmPasswordFocusNode.hasFocus) {
-      confirmPasswordFocusNode.unfocus();
-    }
-  }
-
-  verifyEmail() {
-    firebaseAuth.sendSignInLinkToEmail(
-      email: emailController.text,
-      actionCodeSettings: ActionCodeSettings(
-        // URL you want to redirect back to. The domain (www.example.com) for this
-        // URL must be whitelisted in the Firebase Console.
-        url: 'https://www.example.com/finishSignUp?cartId=1234',
-      ),
-    );
-  }
-
   Future<void> signUp(BuildContext context) async {
     final isValid = formKey.currentState!.validate();
     clearFocus();
@@ -81,7 +55,8 @@ class SignUpController extends GetxController {
             'Successfully created account with username as ${user.displayName}',
       );
 
-      disposeFormFields();
+      clearFocus();
+      clearformFields();
     } on FirebaseAuthException catch (e) {
       showSnackbar(
         context,
@@ -91,13 +66,6 @@ class SignUpController extends GetxController {
     }
 
     isLoading(false);
-  }
-
-  clearformFields() {
-    usernameController.clear();
-    emailController.clear();
-    createPasswordController.clear();
-    confirmPasswordController.clear();
   }
 
   void goToLoginPage(BuildContext context) {
@@ -110,11 +78,26 @@ class SignUpController extends GetxController {
     );
   }
 
-  void disposeFormFields() {
-    clearformFields();
-    clearFocus();
-    disposeFocusNodes();
-    disposeTextEditingControllers();
+  void clearFocus() {
+    if (usernameFocusNode.hasFocus) {
+      usernameFocusNode.unfocus();
+    }
+    if (emailFocusNode.hasFocus) {
+      emailFocusNode.unfocus();
+    }
+    if (createPasswordFocusNode.hasFocus) {
+      createPasswordFocusNode.unfocus();
+    }
+    if (confirmPasswordFocusNode.hasFocus) {
+      confirmPasswordFocusNode.unfocus();
+    }
+  }
+
+  clearformFields() {
+    usernameController.clear();
+    emailController.clear();
+    createPasswordController.clear();
+    confirmPasswordController.clear();
   }
 
   void disposeFocusNodes() {
@@ -129,5 +112,12 @@ class SignUpController extends GetxController {
     emailController.dispose();
     createPasswordController.dispose();
     confirmPasswordController.dispose();
+  }
+
+  void disposeFormFields() {
+    clearFocus();
+    clearformFields();
+    disposeFocusNodes();
+    disposeTextEditingControllers();
   }
 }

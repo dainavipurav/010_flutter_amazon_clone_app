@@ -24,15 +24,6 @@ class LoginController extends GetxController {
     super.dispose();
   }
 
-  void clearFocus() {
-    if (emailFocusNode.hasFocus) {
-      emailFocusNode.unfocus();
-    }
-    if (passwordFocusNode.hasFocus) {
-      passwordFocusNode.unfocus();
-    }
-  }
-
   Future<void> login(BuildContext context) async {
     final isValid = formKey.currentState!.validate();
 
@@ -59,7 +50,8 @@ class LoginController extends GetxController {
         content: 'Logged in successfully.',
       );
 
-      disposeFormFields();
+      clearFocus();
+      clearformFields();
     } on FirebaseAuthException catch (e) {
       showSnackbar(
         context,
@@ -69,11 +61,6 @@ class LoginController extends GetxController {
     }
 
     isLoading(false);
-  }
-
-  clearformFields() {
-    emailController.clear();
-    passwordController.clear();
   }
 
   void goToSignUpPage(BuildContext context) {
@@ -87,8 +74,8 @@ class LoginController extends GetxController {
   }
 
   void goToForgotPasswordPage(BuildContext context) {
-    clearformFields();
     clearFocus();
+    clearformFields();
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => const ForgotPassword(),
@@ -97,6 +84,8 @@ class LoginController extends GetxController {
   }
 
   void goToDashoardPage(BuildContext context) {
+    clearFocus();
+    clearformFields();
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (context) => const Dashboard(),
@@ -105,11 +94,18 @@ class LoginController extends GetxController {
     );
   }
 
-  void disposeFormFields() {
-    clearformFields();
-    clearFocus();
-    disposeFocusNodes();
-    disposeTextEditingControllers();
+  void clearFocus() {
+    if (emailFocusNode.hasFocus) {
+      emailFocusNode.unfocus();
+    }
+    if (passwordFocusNode.hasFocus) {
+      passwordFocusNode.unfocus();
+    }
+  }
+
+  clearformFields() {
+    emailController.clear();
+    passwordController.clear();
   }
 
   void disposeFocusNodes() {
@@ -120,5 +116,12 @@ class LoginController extends GetxController {
   void disposeTextEditingControllers() {
     emailController.dispose();
     passwordController.dispose();
+  }
+
+  void disposeFormFields() {
+    clearFocus();
+    clearformFields();
+    disposeFocusNodes();
+    disposeTextEditingControllers();
   }
 }

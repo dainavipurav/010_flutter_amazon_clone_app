@@ -20,12 +20,6 @@ class ForgotPasswordController extends GetxController {
     super.dispose();
   }
 
-  void clearFocus() {
-    if (emailFocusNode.hasFocus) {
-      emailFocusNode.unfocus();
-    }
-  }
-
   Future<void> forgotPassword(BuildContext context) async {
     final isValid = formKey.currentState!.validate();
 
@@ -48,6 +42,9 @@ class ForgotPasswordController extends GetxController {
         content:
             'Password reset email has been sent successfully to registered email address.',
       );
+
+      clearFocus();
+      clearformFields();
     } on FirebaseAuthException catch (e) {
       showSnackbar(
         context,
@@ -59,13 +56,9 @@ class ForgotPasswordController extends GetxController {
     isLoading(false);
   }
 
-  clearformFields() {
-    emailController.clear();
-  }
-
   void goToSignUpPage(BuildContext context) {
-    clearformFields();
     clearFocus();
+    clearformFields();
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (context) => const SignUp(),
@@ -74,11 +67,14 @@ class ForgotPasswordController extends GetxController {
     );
   }
 
-  void disposeFormFields() {
-    clearformFields();
-    clearFocus();
-    disposeFocusNodes();
-    disposeTextEditingControllers();
+  void clearFocus() {
+    if (emailFocusNode.hasFocus) {
+      emailFocusNode.unfocus();
+    }
+  }
+
+  clearformFields() {
+    emailController.clear();
   }
 
   void disposeFocusNodes() {
@@ -87,5 +83,12 @@ class ForgotPasswordController extends GetxController {
 
   void disposeTextEditingControllers() {
     emailController.dispose();
+  }
+
+  void disposeFormFields() {
+    clearFocus();
+    clearformFields();
+    disposeFocusNodes();
+    disposeTextEditingControllers();
   }
 }
