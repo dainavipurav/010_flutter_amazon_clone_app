@@ -20,3 +20,7 @@ const String loginErrorMsg = 'Error occurred while login user.';
 const verifyEmailMsg = 'Please verify your email before signing in.';
 
 const String processDetailsSuccesMsg = 'Successfully processed data.';
+
+const String home = 'Home';
+const String cart = 'Cart';
+const String profile = 'Profile';
