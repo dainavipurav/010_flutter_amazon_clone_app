@@ -45,6 +45,24 @@ class LoginController extends GetxController {
 
       print('User Credentials : $userCrdentials');
 
+      if (userCrdentials.user == null) {
+        isLoading(false);
+        showSnackbar(
+          context,
+          content: errorOcurred,
+        );
+        return;
+      }
+
+      if (!userCrdentials.user!.emailVerified) {
+        isLoading(false);
+        showSnackbar(
+          context,
+          content: verifyEmailMsg,
+        );
+        return;
+      }
+
       await saveUserDetails(
         userCrdentials: userCrdentials,
         userPassword: passwordController.text,
@@ -56,7 +74,7 @@ class LoginController extends GetxController {
 
       showSnackbar(
         context,
-        content: 'Logged in successfully.',
+        content: loginSuccessMsg,
       );
 
       clearFocus();
@@ -64,8 +82,7 @@ class LoginController extends GetxController {
     } on FirebaseAuthException catch (e) {
       showSnackbar(
         context,
-        content:
-            'Error occurred while login! Please try again later ${e.message}',
+        content: e.message ?? loginErrorMsg,
       );
     }
 

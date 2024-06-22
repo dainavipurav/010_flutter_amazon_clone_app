@@ -44,40 +44,33 @@ class SignUpController extends GetxController {
         password: createPasswordController.text,
       );
 
-      showSnackbar(
-        context,
-        content: createUserSuccesMessage,
-      );
+      User? user = userCrdentials.user;
+      if (user != null && !user.emailVerified) {
+        await user.updateDisplayName(usernameController.text);
 
-      User user = userCrdentials.user!;
-      await user.updateDisplayName(usernameController.text);
+        print('User Credentials : $userCrdentials');
 
-      print('User Credentials : $userCrdentials');
+        await user.sendEmailVerification();
 
-      await storUserDetailsTofirestore(
-        userName: usernameController.text,
-        password: createPasswordController.text,
-      );
+        showSnackbar(
+          context,
+          content: signUpSuccesMsg,
+        );
 
-      await saveUserDetails(
-        userCrdentials: userCrdentials,
-        userPassword: createPasswordController.text,
-      );
+        goToLoginPage(context);
 
-      showSnackbar(
-        context,
-        content: processDetailsSuccesMessage,
-      );
-
-      goToLoginPage(context);
-
-      clearFocus();
-      clearformFields();
+        clearFocus();
+        clearformFields();
+      } else {
+        showSnackbar(
+          context,
+          content: errorOcurred,
+        );
+      }
     } on FirebaseException catch (e) {
       showSnackbar(
         context,
-        content:
-            'Error occurred while signing up! Please try again later ${e.message}',
+        content: e.message ?? signupErrorMsg,
       );
     }
 
