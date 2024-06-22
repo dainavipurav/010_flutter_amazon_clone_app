@@ -12,3 +12,18 @@ void showSnackbar(BuildContext context, {required String content}) {
     ),
   );
 }
+
+Future<void> storUserDetailsTofirestore({
+  required String password,
+  required String userName,
+}) async {
+  await firebaseFirestore
+      .collection(userCollectionKey)
+      .doc(firebaseAuth.currentUser!.uid)
+      .set({
+    userIdKey: firebaseAuth.currentUser!.uid,
+    usernameKey: userName,
+    userEmailKey: firebaseAuth.currentUser!.email,
+    userPasswordKey: password,
+  });
+}

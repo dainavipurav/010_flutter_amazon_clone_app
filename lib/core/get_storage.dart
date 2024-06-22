@@ -13,7 +13,7 @@ Future<void> initializeAllBoxes() async {
   await GetStorage.init('user_details');
 }
 
-Future<void> saveUserData(
+Future<void> saveUserDetails(
     {required UserCredential userCrdentials,
     required String userPassword}) async {
   await userDetailsBox.write(userIdKey, userCrdentials.user!.uid);

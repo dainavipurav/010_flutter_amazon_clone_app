@@ -45,7 +45,7 @@ class LoginController extends GetxController {
 
       print('User Credentials : $userCrdentials');
 
-      await saveUserData(
+      await saveUserDetails(
         userCrdentials: userCrdentials,
         userPassword: passwordController.text,
       );

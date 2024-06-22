@@ -44,26 +44,36 @@ class SignUpController extends GetxController {
         password: createPasswordController.text,
       );
 
+      showSnackbar(
+        context,
+        content: createUserSuccesMessage,
+      );
+
       User user = userCrdentials.user!;
       await user.updateDisplayName(usernameController.text);
 
       print('User Credentials : $userCrdentials');
 
-      await saveUserData(
+      await storUserDetailsTofirestore(
+        userName: usernameController.text,
+        password: createPasswordController.text,
+      );
+
+      await saveUserDetails(
         userCrdentials: userCrdentials,
         userPassword: createPasswordController.text,
       );
 
-      goToLoginPage(context);
-
       showSnackbar(
         context,
-        content: 'Successfully created account',
+        content: processDetailsSuccesMessage,
       );
+
+      goToLoginPage(context);
 
       clearFocus();
       clearformFields();
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseException catch (e) {
       showSnackbar(
         context,
         content:
