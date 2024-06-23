@@ -1,5 +1,7 @@
 part of 'utils.dart';
 
+const String firebaseDbRef = 'clone-7833c-default-rtdb.firebaseio.com';
+
 const String userIdKey = 'user_id';
 const String usernameKey = 'username';
 const String userEmailKey = 'user_email';
@@ -24,3 +26,11 @@ const String processDetailsSuccesMsg = 'Successfully processed data.';
 const String home = 'Home';
 const String cart = 'Cart';
 const String profile = 'Profile';
+
+const String dbCollectionName = 'amazon';
+const String productsFileName = 'products.json';
+const String categoriesFileName = 'categories.json';
+const String subCategoriesFileName = 'sub_categories.json';
+
+const String loadDataError =
+    'Error ocurred while fetching data. Please try again later.';

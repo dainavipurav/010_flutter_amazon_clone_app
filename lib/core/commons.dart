@@ -27,3 +27,34 @@ Future<void> storUserDetailsTofirestore({
     userPasswordKey: password,
   });
 }
+
+Future<String?> getDataByKeyFromRealtimeDatabase(String dbFileName) async {
+  try {
+    final uri = Uri.https(
+      firebaseDbRef,
+      '$dbCollectionName/$dbFileName',
+    );
+    final response = await http.get(uri);
+
+    if (response.statusCode >= 400) {
+      showSnackbar(
+        Get.context!,
+        content: loadDataError,
+      );
+    }
+
+    if (response.body == 'null') {
+      return null;
+    }
+    print(response.body);
+
+    return response.body;
+  } catch (error) {
+    print(error);
+    showSnackbar(
+      Get.context!,
+      content: loadDataError,
+    );
+    return null;
+  }
+}

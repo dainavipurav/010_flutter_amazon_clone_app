@@ -4,6 +4,7 @@ part 'product.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Product {
+  int? id;
   String? name;
   String? description;
   double? price;
@@ -20,6 +21,7 @@ class Product {
   String? image;
 
   Product({
+    this.id,
     this.name,
     this.description,
     this.price,
@@ -30,8 +32,8 @@ class Product {
   });
 
   factory Product.fromJson(Map<String, dynamic> json) =>
-      _$ProductsFromJson(json);
+      _$ProductFromJson(json);
 
   /// Connect the generated [_$ProductsToJson] function to the `toJson` method.
-  Map<String, dynamic> toJson() => _$ProductsToJson(this);
+  Map<String, dynamic> toJson() => _$ProductToJson(this);
 }

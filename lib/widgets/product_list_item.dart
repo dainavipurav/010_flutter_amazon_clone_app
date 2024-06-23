@@ -54,6 +54,7 @@ class ProductListItem extends StatelessWidget {
         product.image ??
             'https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU',
         width: double.infinity,
+        height: 100,
         fit: BoxFit.cover,
       ),
     );
