@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:amazon/core/utils.dart';
 import 'package:get/get.dart';
 
+import '../../core/utils.dart';
 import '../../models/product.dart';
 
 class HomeController extends GetxController {

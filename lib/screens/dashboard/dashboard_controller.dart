@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/utils.dart';
+import '../search_list/search_list.dart';
 import '../sign_up/sign_up.dart';
+import '../wish_list/wish_list.dart';
 
 class DashboardController extends GetxController {
   RxInt selectedIndex = RxInt(0);
@@ -37,6 +39,24 @@ class DashboardController extends GetxController {
         builder: (context) => const SignUp(),
       ),
       ModalRoute.withName('/'),
+    );
+  }
+
+  void goToSearchListPage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const SearchList(),
+      ),
+    );
+  }
+
+  void goToFavoriteListPage(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const WishList(),
+      ),
     );
   }
 }

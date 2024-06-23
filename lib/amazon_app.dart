@@ -1,7 +1,7 @@
-import 'package:amazon/core/utils.dart';
-import 'package:amazon/screens/dashboard/dashboard.dart';
 import 'package:flutter/material.dart';
 
+import 'core/utils.dart';
+import 'screens/dashboard/dashboard.dart';
 import 'screens/sign_up/sign_up.dart';
 
 class AmazonApp extends StatelessWidget {

@@ -1,8 +1,8 @@
-import 'package:amazon/screens/home/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../widgets/product_list_item.dart';
+import 'home_controller.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});

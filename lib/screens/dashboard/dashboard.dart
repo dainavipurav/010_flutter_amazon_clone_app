@@ -19,6 +19,14 @@ class Dashboard extends StatelessWidget {
             title: const Text('Dashboard'),
             actions: [
               IconButton(
+                onPressed: () => xController.goToSearchListPage(context),
+                icon: const Icon(Icons.search),
+              ),
+              IconButton(
+                onPressed: () => xController.goToFavoriteListPage(context),
+                icon: const Icon(Icons.favorite_outline_rounded),
+              ),
+              IconButton(
                 onPressed: () => xController.logout(context),
                 icon: const Icon(Icons.logout),
               ),

@@ -34,3 +34,5 @@ const String subCategoriesFileName = 'sub_categories.json';
 
 const String loadDataError =
     'Error ocurred while fetching data. Please try again later.';
+
+const String searchHint = 'Search Amazon.in';
