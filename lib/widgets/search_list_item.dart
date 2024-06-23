@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../core/utils.dart';
 import '../models/product.dart';
 
 class SearchListItem extends StatelessWidget {
@@ -39,7 +40,7 @@ class SearchListItem extends StatelessWidget {
     return Align(
       alignment: Alignment.topRight,
       child: IconButton(
-        onPressed: () {},
+        onPressed: () => addToFavoriteList(product.id),
         icon: Icon(
           Icons.favorite_border_rounded,
           color: Theme.of(context).colorScheme.primary.withOpacity(0.7),

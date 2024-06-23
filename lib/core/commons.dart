@@ -58,3 +58,43 @@ Future<String?> getDataByKeyFromRealtimeDatabase(String dbFileName) async {
     return null;
   }
 }
+
+Future<void> addToFavoriteList(int? prductId) async {
+  try {
+    final currentUser = firebaseAuth.currentUser;
+    final documentRef = firebaseFirestore
+        .collection(userProductsCollectionKey)
+        .doc(currentUser!.uid);
+    final favoriteListMap = await documentRef.get();
+
+    print(favoriteListMap.data());
+
+    if (favoriteListMap.data() == null ||
+        favoriteListMap.data()![favoriteListDocumentKey] == null ||
+        favoriteListMap.data()![favoriteListDocumentKey].isEmpty()) {
+      await documentRef.set({
+        favoriteListDocumentKey: [prductId],
+      });
+      showSnackbar(
+        Get.context!,
+        content: 'Product added to favorite',
+      );
+      return;
+    }
+
+    final favList = favoriteListMap.data()![favoriteListDocumentKey];
+    favList.add(prductId);
+    await documentRef.set({
+      favoriteListDocumentKey: favList,
+    });
+    showSnackbar(
+      Get.context!,
+      content: 'Product added to favorite',
+    );
+  } on FirebaseException catch (e) {
+    showSnackbar(
+      Get.context!,
+      content: e.message ?? errorOcurred,
+    );
+  }
+}

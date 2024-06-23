@@ -10,6 +10,8 @@ const String userPasswordKey = 'user_password';
 const String isLoggedInKey = 'is_logged_in';
 
 const String userCollectionKey = 'users';
+const String userProductsCollectionKey = 'user_products';
+const String favoriteListDocumentKey = 'favorite_list';
 
 const String signUpSuccesMsg =
     'Successfully created account. A verification email has been sent to registered email. $verifyEmailMsg';

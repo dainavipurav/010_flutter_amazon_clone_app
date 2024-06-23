@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../core/utils.dart';
 import '../search_list/search_list.dart';
 import '../sign_up/sign_up.dart';
-import '../wish_list/wish_list.dart';
+import '../favorite_list/favorite_list.dart';
 
 class DashboardController extends GetxController {
   RxInt selectedIndex = RxInt(0);
@@ -55,7 +55,7 @@ class DashboardController extends GetxController {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const WishList(),
+        builder: (context) => const FavoriteList(),
       ),
     );
   }
