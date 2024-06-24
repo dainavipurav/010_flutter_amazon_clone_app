@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 
-import '../core/utils.dart';
 import '../models/product.dart';
 
 class ProductListItem extends StatelessWidget {
   final Product product;
+  final void Function() onPressed;
+  final bool isFavorite;
 
   const ProductListItem({
     super.key,
     required this.product,
+    required this.onPressed,
+    this.isFavorite = false,
   });
 
   @override
@@ -36,9 +39,9 @@ class ProductListItem extends StatelessWidget {
     return Align(
       alignment: Alignment.topRight,
       child: IconButton(
-        onPressed: () => addToFavoriteList(product.id),
+        onPressed: onPressed,
         icon: Icon(
-          Icons.favorite_border_rounded,
+          isFavorite ? Icons.favorite_rounded : Icons.favorite_border_rounded,
           color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
         ),
       ),

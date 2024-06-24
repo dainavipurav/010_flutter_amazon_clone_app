@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/utils.dart';
@@ -8,20 +7,17 @@ import '../../models/product.dart';
 class SearchListController extends GetxController {
   RxList<Product> products = RxList<Product>();
   RxList<Product> filteredList = RxList<Product>();
+  RxList<int> favList = RxList<int>();
 
-  Future<void> loadProducts() async {
-    String productData =
-        await getDataByKeyFromRealtimeDatabase(productsFileName) ?? '[]';
-
-    final List<dynamic> listData = json.decode(productData);
-
+  Future<void> loadAllProducts(BuildContext context) async {
     products.clear();
+    products.value = await getAllProducts(context);
+    await loadFavoriteProductIdList();
+  }
 
-    for (final item in listData) {
-      products.add(
-        Product.fromJson(item),
-      );
-    }
+  Future<void> loadFavoriteProductIdList() async {
+    favList.clear();
+    favList.value = await getFavoriteProductIdList();
     filteredList.addAll(products);
   }
 
@@ -38,5 +34,15 @@ class SearchListController extends GetxController {
         filteredList.add(element);
       }
     }
+  }
+
+  Future<void> updateFavoriteList(BuildContext context,
+      {required int id}) async {
+    await toggleFavorite(
+      context,
+      prductId: id,
+    );
+
+    loadFavoriteProductIdList();
   }
 }

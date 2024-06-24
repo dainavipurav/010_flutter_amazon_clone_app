@@ -38,3 +38,5 @@ const String loadDataError =
     'Error ocurred while fetching data. Please try again later.';
 
 const String searchHint = 'Search Amazon.in';
+const String addedToFavorite = 'Product added to favorite';
+const String removedFromFavorite = 'Product removed from favorite';

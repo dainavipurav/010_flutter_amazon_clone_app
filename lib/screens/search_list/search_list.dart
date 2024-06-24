@@ -11,7 +11,7 @@ class SearchList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final xController = Get.put(SearchListController());
-    xController.loadProducts();
+    xController.loadAllProducts(context);
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
@@ -46,6 +46,12 @@ class SearchList extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             itemBuilder: (context, index) => SearchListItem(
               product: xController.filteredList[index],
+              onPressed: () => xController.updateFavoriteList(
+                context,
+                id: xController.filteredList[index].id!,
+              ),
+              isFavorite: xController.favList
+                  .contains(xController.filteredList[index].id),
             ),
             itemCount: xController.filteredList.length,
           );

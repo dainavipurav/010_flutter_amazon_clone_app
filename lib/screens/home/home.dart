@@ -10,7 +10,8 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final xController = Get.put(HomeController());
-    xController.loadProducts();
+    xController.loadProducts(context);
+    xController.loadfavorites(context);
 
     return Obx(
       () {
@@ -18,6 +19,12 @@ class Home extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           itemBuilder: (context, index) => ProductListItem(
             product: xController.products[index],
+            onPressed: () => xController.updateFavoriteList(
+              context,
+              id: xController.products[index].id!,
+            ),
+            isFavorite:
+                xController.favList.contains(xController.products[index].id!),
           ),
           itemCount: xController.products.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

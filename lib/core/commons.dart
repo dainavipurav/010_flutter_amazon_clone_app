@@ -4,6 +4,8 @@ final firebaseAuth = FirebaseAuth.instance;
 final firebaseStorage = FirebaseStorage.instance;
 final firebaseFirestore = FirebaseFirestore.instance;
 
+/// Show snackbar
+/// content will be the message shown to the user
 void showSnackbar(BuildContext context, {required String content}) {
   ScaffoldMessenger.of(context).clearSnackBars();
   ScaffoldMessenger.of(context).showSnackBar(
@@ -13,6 +15,7 @@ void showSnackbar(BuildContext context, {required String content}) {
   );
 }
 
+/// Store user credentials to firebase firestore database
 Future<void> storUserDetailsTofirestore({
   required String password,
   required String userName,
@@ -28,7 +31,10 @@ Future<void> storUserDetailsTofirestore({
   });
 }
 
-Future<String?> getDataByKeyFromRealtimeDatabase(String dbFileName) async {
+/// Data to be fetched from realtime database
+/// pass file name from firebase realtime database
+Future<String?> getDataByFileNameFromRealtimeDatabase(BuildContext context,
+    {required String dbFileName}) async {
   try {
     final uri = Uri.https(
       firebaseDbRef,
@@ -38,7 +44,7 @@ Future<String?> getDataByKeyFromRealtimeDatabase(String dbFileName) async {
 
     if (response.statusCode >= 400) {
       showSnackbar(
-        Get.context!,
+        context,
         content: loadDataError,
       );
     }
@@ -52,48 +58,96 @@ Future<String?> getDataByKeyFromRealtimeDatabase(String dbFileName) async {
   } catch (error) {
     print(error);
     showSnackbar(
-      Get.context!,
+      context,
       content: loadDataError,
     );
     return null;
   }
 }
 
-Future<void> addToFavoriteList(int? prductId) async {
+/// To get all products list from the app
+Future<List<Product>> getAllProducts(BuildContext context) async {
+  String productData = await getDataByFileNameFromRealtimeDatabase(
+        context,
+        dbFileName: productsFileName,
+      ) ??
+      '[]';
+
+  final List<dynamic> listData = json.decode(productData);
+
+  List<Product> products = [];
+
+  for (final item in listData) {
+    products.add(
+      Product.fromJson(item),
+    );
+  }
+  return products;
+}
+
+/// To get list of favorite product ids
+Future<List<int>> getFavoriteProductIdList() async {
+  final currentUser = firebaseAuth.currentUser;
+  final documentRef = firebaseFirestore
+      .collection(userProductsCollectionKey)
+      .doc(currentUser!.uid);
+  final favoriteListMap = await documentRef.get();
+  if (favoriteListMap.data() == null ||
+      favoriteListMap.data()![favoriteListDocumentKey] == null) {
+    return [];
+  }
+
+  return favoriteListMap.data()![favoriteListDocumentKey].cast<int>();
+}
+
+/// Add to favorite
+Future<void> toggleFavorite(BuildContext context,
+    {required int prductId}) async {
   try {
     final currentUser = firebaseAuth.currentUser;
     final documentRef = firebaseFirestore
         .collection(userProductsCollectionKey)
         .doc(currentUser!.uid);
+
     final favoriteListMap = await documentRef.get();
 
-    print(favoriteListMap.data());
+    print('${favoriteListMap.data()}, ${favoriteListMap.data().runtimeType}');
 
     if (favoriteListMap.data() == null ||
-        favoriteListMap.data()![favoriteListDocumentKey] == null ||
-        favoriteListMap.data()![favoriteListDocumentKey].isEmpty()) {
+        favoriteListMap.data()![favoriteListDocumentKey] == null) {
       await documentRef.set({
         favoriteListDocumentKey: [prductId],
       });
       showSnackbar(
-        Get.context!,
-        content: 'Product added to favorite',
+        context,
+        content: addedToFavorite,
       );
       return;
     }
 
     final favList = favoriteListMap.data()![favoriteListDocumentKey];
+    if (favList.contains(prductId)) {
+      favList.remove(prductId);
+      showSnackbar(
+        context,
+        content: removedFromFavorite,
+      );
+      await documentRef.set({
+        favoriteListDocumentKey: favList,
+      });
+      return;
+    }
     favList.add(prductId);
     await documentRef.set({
       favoriteListDocumentKey: favList,
     });
     showSnackbar(
-      Get.context!,
-      content: 'Product added to favorite',
+      context,
+      content: addedToFavorite,
     );
   } on FirebaseException catch (e) {
     showSnackbar(
-      Get.context!,
+      context,
       content: e.message ?? errorOcurred,
     );
   }
