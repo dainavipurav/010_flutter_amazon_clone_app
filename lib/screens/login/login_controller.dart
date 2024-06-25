@@ -63,6 +63,11 @@ class LoginController extends GetxController {
         return;
       }
 
+      storUserDetailsTofirestore(
+        password: passwordController.text,
+        userName: firebaseAuth.currentUser!.displayName ?? '',
+      );
+
       await saveUserDetails(
         userCrdentials: userCrdentials,
         userPassword: passwordController.text,
