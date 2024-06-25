@@ -1,3 +1,4 @@
+import 'package:amazon/widgets/no_data_found.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,15 +19,27 @@ class FavoriteList extends StatelessWidget {
       ),
       body: Obx(
         () {
+          if (xController.isLoading.value && xController.favList.isEmpty) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          if (xController.favList.isEmpty) {
+            return const NoDataFound();
+          }
+
           return GridView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            itemBuilder: (context, index) => ProductListItem(
-              onPressed: () => xController.removFavorite(
-                context,
-                id: xController.favList[index].id!,
+            itemBuilder: (context, index) => Obx(
+              () => ProductListItem(
+                onPressed: () => xController.removFavorite(
+                  context,
+                  id: xController.favList[index].id!,
+                ),
+                product: xController.favList[index],
+                isFavorite: true,
               ),
-              product: xController.favList[index],
-              isFavorite: true,
             ),
             itemCount: xController.favList.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

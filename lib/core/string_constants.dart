@@ -40,3 +40,5 @@ const String loadDataError =
 const String searchHint = 'Search Amazon.in';
 const String addedToFavorite = 'Product added to favorite';
 const String removedFromFavorite = 'Product removed from favorite';
+
+const String noDataFound = 'No Data Found';

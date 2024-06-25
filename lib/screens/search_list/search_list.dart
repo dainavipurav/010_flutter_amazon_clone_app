@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/utils.dart';
+import '../../widgets/no_data_found.dart';
 import '../../widgets/search_list_item.dart';
 import 'search_list_controller.dart';
 
@@ -42,16 +43,28 @@ class SearchList extends StatelessWidget {
       ),
       body: Obx(
         () {
+          if (xController.isLoading.value && xController.filteredList.isEmpty) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          if (xController.filteredList.isEmpty) {
+            return const NoDataFound();
+          }
+
           return ListView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            itemBuilder: (context, index) => SearchListItem(
-              product: xController.filteredList[index],
-              onPressed: () => xController.updateFavoriteList(
-                context,
-                id: xController.filteredList[index].id!,
+            itemBuilder: (context, index) => Obx(
+              () => SearchListItem(
+                product: xController.filteredList[index],
+                onPressed: () => xController.updateFavoriteList(
+                  context,
+                  id: xController.filteredList[index].id!,
+                ),
+                isFavorite: xController.favList
+                    .contains(xController.filteredList[index].id),
               ),
-              isFavorite: xController.favList
-                  .contains(xController.filteredList[index].id),
             ),
             itemCount: xController.filteredList.length,
           );
