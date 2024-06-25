@@ -18,7 +18,6 @@ class SearchListController extends GetxController {
   Future<void> loadFavoriteProductIdList() async {
     favList.clear();
     favList.value = await getFavoriteProductIdList();
-    filteredList.addAll(products);
   }
 
   void getProductsBySearchKey(String searchKey) {
