@@ -34,7 +34,7 @@ class ProductDetailsController extends GetxController {
         if (quantity.value == 100) {
           showSnackbar(
             context,
-            content: 'You\'ve reached maximum product limit.',
+            content: productLimitExceed,
           );
           return;
         }
@@ -51,5 +51,21 @@ class ProductDetailsController extends GetxController {
         quantity = quantity;
         break;
     }
+  }
+
+  Future<void> addToCart(
+    BuildContext context, {
+    required int productId,
+  }) async {
+    AmazonDialog.showLoaderDialog(context);
+
+    await updateProductQuantityInCartList(
+      context,
+      productId: productId,
+      quantity: quantity.value == 0 ? 1 : quantity.value,
+      action: QuantityAction.add,
+    );
+
+    Navigator.pop(context);
   }
 }

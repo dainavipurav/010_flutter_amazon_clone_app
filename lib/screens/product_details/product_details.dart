@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/enums.dart';
+import '../../core/utils.dart';
 import '../../models/product.dart';
 import 'product_details_controller.dart';
 
@@ -27,7 +28,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.product.name ?? 'Product details'),
+        title: Text(widget.product.name ?? productDetails),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
@@ -173,7 +174,10 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   Widget addToCartButton() {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () async => xController.addToCart(
+        context,
+        productId: widget.product.id!,
+      ),
       style: ElevatedButton.styleFrom(
         backgroundColor: Theme.of(context).colorScheme.primary,
         alignment: Alignment.center,
@@ -183,7 +187,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         ),
       ),
       child: const Text(
-        'Add',
+        add,
         style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
@@ -200,9 +204,9 @@ class _ProductDetailsState extends State<ProductDetails> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Details',
-            style: const TextStyle(
+          const Text(
+            details,
+            style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
             ),

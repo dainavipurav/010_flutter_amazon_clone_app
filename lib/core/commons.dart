@@ -89,7 +89,7 @@ Future<List<Product>> getAllProducts(BuildContext context) async {
 Future<List<int>> getFavoriteProductIdList() async {
   final currentUser = firebaseAuth.currentUser;
   final documentRef = firebaseFirestore
-      .collection(userProductsCollectionKey)
+      .collection(favoriteProductsCollectionKey)
       .doc(currentUser!.uid);
   final favoriteListMap = await documentRef.get();
   if (favoriteListMap.data() == null ||
@@ -106,7 +106,7 @@ Future<void> toggleFavorite(BuildContext context,
   try {
     final currentUser = firebaseAuth.currentUser;
     final documentRef = firebaseFirestore
-        .collection(userProductsCollectionKey)
+        .collection(favoriteProductsCollectionKey)
         .doc(currentUser!.uid);
 
     final favoriteListMap = await documentRef.get();
@@ -128,13 +128,13 @@ Future<void> toggleFavorite(BuildContext context,
     final favList = favoriteListMap.data()![favoriteListDocumentKey];
     if (favList.contains(prductId)) {
       favList.remove(prductId);
+      await documentRef.set({
+        favoriteListDocumentKey: favList,
+      });
       showSnackbar(
         context,
         content: removedFromFavorite,
       );
-      await documentRef.set({
-        favoriteListDocumentKey: favList,
-      });
       return;
     }
     favList.add(prductId);
@@ -145,6 +145,96 @@ Future<void> toggleFavorite(BuildContext context,
       context,
       content: addedToFavorite,
     );
+  } on FirebaseException catch (e) {
+    showSnackbar(
+      context,
+      content: e.message ?? errorOcurred,
+    );
+  }
+}
+
+Future<void> updateProductQuantityInCartList(
+  BuildContext context, {
+  required int productId,
+  int quantity = 1,
+  QuantityAction action = QuantityAction.increase,
+}) async {
+  try {
+    final currentUser = firebaseAuth.currentUser;
+    final documentRef = firebaseFirestore
+        .collection(cartProductsCollectionKey)
+        .doc(currentUser!.uid);
+
+    final documentRefData = await documentRef.get();
+
+    print('${documentRefData.data()}, ${documentRefData.data().runtimeType}');
+
+    if (documentRefData.data() == null ||
+        documentRefData.data()![cartListDocumentKey] == null) {
+      await documentRef.set({
+        cartListDocumentKey: {productId.toString(): quantity},
+      });
+
+      showSnackbar(
+        context,
+        content: addedToCart,
+      );
+
+      return;
+    }
+
+    final cartListMap = documentRefData.data()![cartListDocumentKey];
+    final productQuantityInCart = cartListMap[productId.toString()] ?? 0;
+
+    if (productQuantityInCart > 0 && action == QuantityAction.decrease) {
+      if (productQuantityInCart == 1) {
+        cartListMap.remove(productId);
+        await documentRef.set({
+          cartListDocumentKey: cartListMap,
+        });
+        showSnackbar(
+          context,
+          content: removedFromCart,
+        );
+        return;
+      } else {
+        cartListMap[productId.toString()] = productQuantityInCart - 1;
+        showSnackbar(
+          context,
+          content: quantityUpdated,
+        );
+        await documentRef.set({
+          cartListDocumentKey: cartListMap,
+        });
+        return;
+      }
+    }
+
+    if (action == QuantityAction.increase) {
+      cartListMap[productId.toString()] = productQuantityInCart + 1;
+      await documentRef.set({
+        cartListDocumentKey: cartListMap,
+      });
+
+      showSnackbar(
+        context,
+        content: quantityUpdated,
+      );
+      return;
+    }
+
+    if (action == QuantityAction.add) {
+      cartListMap[productId.toString()] = productQuantityInCart + quantity;
+      await documentRef.set({
+        cartListDocumentKey: cartListMap,
+      });
+      showSnackbar(
+        context,
+        content: addedToCart,
+      );
+
+      return;
+    }
   } on FirebaseException catch (e) {
     showSnackbar(
       context,

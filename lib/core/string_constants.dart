@@ -10,8 +10,10 @@ const String userPasswordKey = 'user_password';
 const String isLoggedInKey = 'is_logged_in';
 
 const String userCollectionKey = 'users';
-const String userProductsCollectionKey = 'user_products';
+const String favoriteProductsCollectionKey = 'favorite_products';
 const String favoriteListDocumentKey = 'favorite_list';
+const String cartProductsCollectionKey = 'cart_products';
+const String cartListDocumentKey = 'cart_list';
 
 const String signUpSuccesMsg =
     'Successfully created account. A verification email has been sent to registered email. $verifyEmailMsg';
@@ -38,7 +40,14 @@ const String loadDataError =
     'Error ocurred while fetching data. Please try again later.';
 
 const String searchHint = 'Search Amazon.in';
-const String addedToFavorite = 'Product added to favorite';
-const String removedFromFavorite = 'Product removed from favorite';
+const String addedToFavorite = 'Product added to favorite.';
+const String removedFromFavorite = 'Product removed from favorite.';
+const String addedToCart = 'Product added to cart.';
+const String removedFromCart = 'Product removed from cart.';
+const String quantityUpdated = 'Product quantity updated.';
 
 const String noDataFound = 'No Data Found';
+const String details = 'Details';
+const String add = 'Add';
+const String productDetails = 'Product details';
+const String productLimitExceed = 'You\'ve reached maximum product limit.';
