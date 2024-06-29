@@ -96,11 +96,20 @@ class SearchListItem extends StatelessWidget {
             maxLines: 1,
           ),
           const SizedBox(height: 4),
-          Text(
-            (product.price ?? 0).toString(),
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.currency_rupee_sharp,
+                size: 14,
+              ),
+              Text(
+                (product.price ?? 0).toString(),
+                textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ],
           ),
         ],
       ),
