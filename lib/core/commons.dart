@@ -100,6 +100,22 @@ Future<List<int>> getFavoriteProductIdList() async {
   return favoriteListMap.data()![favoriteListDocumentKey].cast<int>();
 }
 
+Future<Map<String, dynamic>> getCartProductListMap() async {
+  final currentUser = firebaseAuth.currentUser;
+  final documentRef = firebaseFirestore
+      .collection(cartProductsCollectionKey)
+      .doc(currentUser!.uid);
+  final cartListMap = await documentRef.get();
+  if (cartListMap.data() == null ||
+      cartListMap.data()![cartListDocumentKey] == null) {
+    return {};
+  }
+
+  print(cartListMap.data()![cartListDocumentKey]);
+
+  return cartListMap.data()![cartListDocumentKey];
+}
+
 /// Add to favorite
 Future<void> toggleFavorite(BuildContext context,
     {required int prductId}) async {
@@ -186,9 +202,21 @@ Future<void> updateProductQuantityInCartList(
     final cartListMap = documentRefData.data()![cartListDocumentKey];
     final productQuantityInCart = cartListMap[productId.toString()] ?? 0;
 
+    if (productQuantityInCart > 0 && action == QuantityAction.remove) {
+      cartListMap.remove(productId.toString());
+      await documentRef.set({
+        cartListDocumentKey: cartListMap,
+      });
+      showSnackbar(
+        context,
+        content: removedFromCart,
+      );
+      return;
+    }
+
     if (productQuantityInCart > 0 && action == QuantityAction.decrease) {
       if (productQuantityInCart == 1) {
-        cartListMap.remove(productId);
+        cartListMap.remove(productId.toString());
         await documentRef.set({
           cartListDocumentKey: cartListMap,
         });

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/utils.dart';
+import '../cart/cart.dart';
 import '../home/home.dart';
 import 'dashboard_controller.dart';
 
@@ -48,9 +49,7 @@ class Dashboard extends StatelessWidget {
       case 0:
         return const Home();
       case 1:
-        return const Center(
-          child: Text(cart),
-        );
+        return const Cart();
       case 2:
         return const Center(
           child: Text(profile),
