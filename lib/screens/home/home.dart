@@ -35,8 +35,9 @@ class Home extends StatelessWidget {
                 context,
                 id: xController.products[index].id!,
               ),
-              isFavorite:
-                  xController.favList.contains(xController.products[index].id!),
+              isFavorite: xController.favList.contains(
+                xController.products[index].id!,
+              ),
             ),
           ),
           itemCount: xController.products.length,
