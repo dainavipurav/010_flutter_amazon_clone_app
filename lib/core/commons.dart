@@ -270,3 +270,20 @@ Future<void> updateProductQuantityInCartList(
     );
   }
 }
+
+String generateRandomKey(Map<String, dynamic> map) {
+  const int keyLength = 8;
+  const String chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  Random random = Random();
+
+  while (true) {
+    String randomKey = String.fromCharCodes(Iterable.generate(
+      keyLength,
+      (_) => chars.codeUnitAt(random.nextInt(chars.length)),
+    ));
+
+    if (!map.containsKey(randomKey)) {
+      return randomKey;
+    }
+  }
+}

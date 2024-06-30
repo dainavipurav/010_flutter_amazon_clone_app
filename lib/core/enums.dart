@@ -4,3 +4,9 @@ enum QuantityAction {
   add,
   remove,
 }
+
+enum AddressType {
+  home,
+  work,
+  other,
+}

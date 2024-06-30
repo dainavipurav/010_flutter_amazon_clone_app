@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/enums.dart';
+import '../../widgets/bottom_gadient.dart';
 import '../../widgets/cart_list_item.dart';
 import '../../widgets/no_data_found.dart';
+import '../address/address_details.dart';
 import 'cart_controller.dart';
 
 class Cart extends StatelessWidget {
@@ -58,6 +60,9 @@ class Cart extends StatelessWidget {
                 const SizedBox(height: 200),
               ],
             ),
+            const BottomGradient(
+              height: 100,
+            ),
             Positioned(
               bottom: 0,
               left: 20,
@@ -104,7 +109,14 @@ class Cart extends StatelessWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AddressDetails(),
+                          ),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Colors.white,
