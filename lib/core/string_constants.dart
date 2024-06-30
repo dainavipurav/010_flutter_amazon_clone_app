@@ -71,3 +71,5 @@ const String cityOrDistrict = 'City / District';
 const String cityValidation = 'City / District can\'t be empty';
 const String state = 'State';
 const String stateValidation = 'State can\'t be empty';
+const String makePayment = 'Make Payment';
+const String paymentMethod = 'Payment Method';

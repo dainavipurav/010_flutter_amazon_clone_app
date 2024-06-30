@@ -1,4 +1,3 @@
-import 'package:amazon/screens/payment/payment.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,6 +5,7 @@ import 'package:get/get.dart';
 import '../../core/enums.dart';
 import '../../core/utils.dart';
 import '../../models/address.dart';
+import '../payment_method/payment_method.dart';
 
 class AddressDetailsController extends GetxController {
   final formKey = GlobalKey<FormState>();
@@ -52,10 +52,12 @@ class AddressDetailsController extends GetxController {
     final valid = formKey.currentState!.validate();
     if (valid) {
       await saveAddressToFirebase(context);
+      formKey.currentState!.reset();
+      selectedAddressOption.value = null;
       await Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const Payment(),
+          builder: (context) => const PaymentMethod(),
         ),
       );
     }

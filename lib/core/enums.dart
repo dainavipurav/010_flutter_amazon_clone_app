@@ -10,3 +10,10 @@ enum AddressType {
   work,
   other,
 }
+
+enum PaymentType {
+  card,
+  internetBanking,
+  upi,
+  cod,
+}
