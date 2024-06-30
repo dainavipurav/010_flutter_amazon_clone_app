@@ -25,27 +25,91 @@ class Cart extends StatelessWidget {
           return const NoDataFound();
         }
 
-        return ListView.builder(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          itemBuilder: (context, index) => Obx(
-            () => CartListItem(
-              product: xController.cartList[index],
-              onPressed: ({
-                action = QuantityAction.add,
-                quantity = 1,
-              }) {
-                xController.updateCartList(
-                  context,
-                  productId: xController.cartList[index].id!,
-                  action: action,
-                );
-              },
-              quantity: xController
-                      .cartMap[xController.cartList[index].id!.toString()] ??
-                  0,
+        return Stack(
+          children: [
+            ListView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              children: [
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const ClampingScrollPhysics(),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  itemBuilder: (context, index) => Obx(
+                    () => CartListItem(
+                      product: xController.cartList[index],
+                      onPressed: ({
+                        action = QuantityAction.add,
+                        quantity = 1,
+                      }) {
+                        xController.updateCartList(
+                          context,
+                          productId: xController.cartList[index].id!,
+                          action: action,
+                        );
+                      },
+                      quantity: xController.cartMap[
+                              xController.cartList[index].id!.toString()] ??
+                          0,
+                    ),
+                  ),
+                  itemCount: xController.cartList.length,
+                ),
+                const SizedBox(height: 200),
+              ],
             ),
-          ),
-          itemCount: xController.cartList.length,
+            Positioned(
+              bottom: 0,
+              left: 20,
+              right: 20,
+              child: Column(
+                children: [
+                  Card(
+                    clipBehavior: Clip.antiAlias,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'SubTotal : ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Wrap(
+                            alignment: WrapAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.currency_rupee_sharp,
+                                size: 20,
+                              ),
+                              Text(
+                                xController.subTotal.toString(),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Colors.white,
+                    ),
+                    child: const Text('Proceed to Buy'),
+                  ),
+                ],
+              ),
+            )
+          ],
         );
       },
     );

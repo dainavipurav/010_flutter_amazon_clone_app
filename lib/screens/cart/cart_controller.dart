@@ -11,6 +11,7 @@ class CartController extends GetxController {
   RxList<Product> cartList = RxList<Product>();
   RxMap cartMap = RxMap();
   RxBool isLoading = RxBool(false);
+  RxDouble subTotal = RxDouble(0);
 
   Future<void> loadAllProducts(BuildContext context) async {
     isLoading.value = true;
@@ -48,10 +49,12 @@ class CartController extends GetxController {
 
   void fetchCartList() {
     cartList.clear();
+    subTotal.value = 0;
 
     for (var element in products) {
       if (cartMap.containsKey(element.id.toString())) {
         cartList.add(element);
+        subTotal.value = (subTotal.value + element.price!).toPrecision(2);
       }
     }
   }
