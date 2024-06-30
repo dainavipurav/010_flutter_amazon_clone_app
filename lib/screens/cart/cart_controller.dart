@@ -54,7 +54,9 @@ class CartController extends GetxController {
     for (var element in products) {
       if (cartMap.containsKey(element.id.toString())) {
         cartList.add(element);
-        subTotal.value = (subTotal.value + element.price!).toPrecision(2);
+        subTotal.value =
+            (subTotal.value + element.price! * cartMap[element.id.toString()])
+                .toPrecision(2);
       }
     }
   }
