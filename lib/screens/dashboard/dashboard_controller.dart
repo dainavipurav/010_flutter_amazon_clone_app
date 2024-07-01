@@ -22,13 +22,12 @@ class DashboardController extends GetxController {
 
       showSnackbar(
         context,
-        content: 'Logged out successfully',
+        content: logoutSuccess,
       );
     } on FirebaseAuthException catch (e) {
       showSnackbar(
         context,
-        content:
-            'Error occurred while logout! Please try again later ${e.message}',
+        content: '$logoutError ${e.message}',
       );
     }
   }

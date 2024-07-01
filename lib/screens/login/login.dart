@@ -1,3 +1,4 @@
+import 'package:amazon/core/utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +14,7 @@ class Login extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Text(login),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -24,7 +25,7 @@ class Login extends StatelessWidget {
               TextFormField(
                 controller: xController.emailController,
                 decoration: const InputDecoration(
-                  labelText: 'Email',
+                  labelText: email,
                 ),
                 keyboardType: TextInputType.emailAddress,
                 focusNode: xController.emailFocusNode,
@@ -32,7 +33,7 @@ class Login extends StatelessWidget {
                   if (value == null ||
                       value.trim().isEmpty ||
                       !value.contains('@')) {
-                    return 'Please enter a valid email';
+                    return emailValidation;
                   }
                   return null;
                 },
@@ -42,12 +43,12 @@ class Login extends StatelessWidget {
                 controller: xController.passwordController,
                 obscureText: true,
                 decoration: const InputDecoration(
-                  labelText: 'Password',
+                  labelText: password,
                 ),
                 focusNode: xController.passwordFocusNode,
                 validator: (value) {
                   if (value == null || value.trim().length < 6) {
-                    return 'Password should be minimum 6 characters.';
+                    return passwordValidation;
                   }
                   return null;
                 },
@@ -58,7 +59,7 @@ class Login extends StatelessWidget {
                   xController.goToForgotPasswordPage(context);
                 },
                 child: Text(
-                  'Forgot Password?',
+                  '$forgotPassword?',
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         color: Theme.of(context).colorScheme.primary,
                       ),
@@ -81,10 +82,10 @@ class Login extends StatelessWidget {
               const SizedBox(height: 16),
               RichText(
                 text: TextSpan(
-                  text: 'Don\'t have an account? ',
+                  text: dontHaveAccount,
                   children: [
                     TextSpan(
-                      text: 'Signup',
+                      text: signup,
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           xController.goToSignUpPage(context);

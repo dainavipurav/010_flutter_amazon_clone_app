@@ -17,7 +17,7 @@ class Dashboard extends StatelessWidget {
       () {
         return Scaffold(
           appBar: AppBar(
-            title: const Text('Dashboard'),
+            title: const Text(dashboard),
             actions: [
               IconButton(
                 onPressed: () => xController.goToSearchListPage(context),

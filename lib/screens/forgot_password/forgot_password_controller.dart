@@ -39,8 +39,7 @@ class ForgotPasswordController extends GetxController {
 
       showSnackbar(
         context,
-        content:
-            'Password reset email has been sent successfully to registered email address.',
+        content: passwordResetMsg,
       );
 
       clearFocus();
@@ -48,8 +47,7 @@ class ForgotPasswordController extends GetxController {
     } on FirebaseAuthException catch (e) {
       showSnackbar(
         context,
-        content:
-            'Error occurred while reset password! Please try again later ${e.message}',
+        content: '$passwordResetError ${e.message}',
       );
     }
 

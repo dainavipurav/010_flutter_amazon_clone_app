@@ -73,3 +73,36 @@ const String state = 'State';
 const String stateValidation = 'State can\'t be empty';
 const String makePayment = 'Make Payment';
 const String paymentMethod = 'Payment Method';
+const String orderSuccess = 'Items ordered successfully.';
+const String unavailablePaymentMethod =
+    'Sorry! This payment method is curently unavailable.';
+const String selectPaymentMethod = 'Please select payment method.';
+const String card = 'Card';
+const String internetBanking = 'Internet Banking';
+const String upi = 'UPI';
+const String cod = 'Cash on Delivery';
+const String name = 'Name';
+const String continueTxt = 'Continue';
+const String logoutSuccess = 'Logged out successfully';
+const String logoutError =
+    'Error occurred while logout! Please try again later';
+const String dashboard = 'Dashboard';
+const String passwordResetMsg =
+    'Password reset email has been sent successfully to registered email address.';
+const String passwordResetError =
+    'Error occurred while reset password! Please try again later';
+const String forgotPassword = 'Forgot Password';
+const String email = 'Email';
+const String emailValidation = 'Please enter a valid email';
+const String resetPassword = 'Reset Password';
+const String dontHaveAccount = 'Don\'t have an account? ';
+const String signup = 'Signup';
+const String login = 'Login';
+const String password = 'Password';
+const String passwordValidation = 'Password should be minimum 6 characters.';
+const String username = 'Username';
+const String usernameValidation = 'Username can\'t be empty';
+const String createPassword = 'Create Password';
+const String passwordMatchValidation = 'Password doesn\'t match.';
+const String confirmPassword = 'Confirm Password';
+const String alreadyHaveAccount = 'Already have an account? ';

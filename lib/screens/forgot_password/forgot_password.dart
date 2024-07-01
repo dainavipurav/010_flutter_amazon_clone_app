@@ -1,3 +1,4 @@
+import 'package:amazon/core/utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +22,7 @@ class ForgotPassword extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Forgot Password'),
+          title: const Text(forgotPassword),
         ),
         body: Padding(
           padding: const EdgeInsets.all(20),
@@ -32,7 +33,7 @@ class ForgotPassword extends StatelessWidget {
                 TextFormField(
                   controller: xController.emailController,
                   decoration: const InputDecoration(
-                    labelText: 'Email',
+                    labelText: email,
                   ),
                   keyboardType: TextInputType.emailAddress,
                   focusNode: xController.emailFocusNode,
@@ -40,7 +41,7 @@ class ForgotPassword extends StatelessWidget {
                     if (value == null ||
                         value.trim().isEmpty ||
                         !value.contains('@')) {
-                      return 'Please enter a valid email';
+                      return emailValidation;
                     }
                     return null;
                   },
@@ -55,17 +56,17 @@ class ForgotPassword extends StatelessWidget {
                               padding: EdgeInsets.all(8.0),
                               child: CircularProgressIndicator(),
                             )
-                          : const Text('Reset Password'),
+                          : const Text(resetPassword),
                     );
                   },
                 ),
                 const SizedBox(height: 16),
                 RichText(
                   text: TextSpan(
-                    text: 'Don\'t have an account? ',
+                    text: dontHaveAccount,
                     children: [
                       TextSpan(
-                        text: 'Signup',
+                        text: signup,
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
                             xController.goToSignUpPage(context);

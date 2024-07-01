@@ -90,7 +90,7 @@ class _AddressDetailsState extends State<AddressDetails> {
           padding: const EdgeInsets.all(17),
         ),
         child: const Text(
-          'Continue',
+          continueTxt,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -115,7 +115,7 @@ class _AddressDetailsState extends State<AddressDetails> {
       children: [
         TextFormField(
           decoration: const InputDecoration(
-            labelText: 'Name',
+            labelText: name,
           ),
           keyboardType: TextInputType.name,
           controller: xController.nameController,

@@ -1,3 +1,4 @@
+import 'package:amazon/core/utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,12 +25,12 @@ class SignUp extends StatelessWidget {
               TextFormField(
                 controller: xController.usernameController,
                 decoration: const InputDecoration(
-                  labelText: 'Username',
+                  labelText: username,
                 ),
                 focusNode: xController.usernameFocusNode,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Username can\'t be empty';
+                    return usernameValidation;
                   }
                   return null;
                 },
@@ -38,7 +39,7 @@ class SignUp extends StatelessWidget {
               TextFormField(
                 controller: xController.emailController,
                 decoration: const InputDecoration(
-                  labelText: 'Email',
+                  labelText: email,
                 ),
                 keyboardType: TextInputType.emailAddress,
                 focusNode: xController.emailFocusNode,
@@ -46,7 +47,7 @@ class SignUp extends StatelessWidget {
                   if (value == null ||
                       value.trim().isEmpty ||
                       !value.contains('@')) {
-                    return 'Please enter a valid email';
+                    return emailValidation;
                   }
                   return null;
                 },
@@ -56,16 +57,16 @@ class SignUp extends StatelessWidget {
                 controller: xController.createPasswordController,
                 obscureText: true,
                 decoration: const InputDecoration(
-                  labelText: 'Create Password',
+                  labelText: createPassword,
                 ),
                 focusNode: xController.createPasswordFocusNode,
                 validator: (value) {
                   if (value == null || value.trim().length < 6) {
-                    return 'Password should be minimum 6 characters.';
+                    return passwordValidation;
                   }
                   if (value.trim() !=
                       xController.confirmPasswordController.text.trim()) {
-                    return 'Password doesn\'t match.';
+                    return passwordMatchValidation;
                   }
                   return null;
                 },
@@ -75,16 +76,16 @@ class SignUp extends StatelessWidget {
                 controller: xController.confirmPasswordController,
                 obscureText: true,
                 decoration: const InputDecoration(
-                  labelText: 'Confirm Password',
+                  labelText: confirmPassword,
                 ),
                 focusNode: xController.confirmPasswordFocusNode,
                 validator: (value) {
                   if (value == null || value.trim().length < 6) {
-                    return 'Password should be minimum 6 characters.';
+                    return passwordValidation;
                   }
                   if (value.trim() !=
                       xController.createPasswordController.text.trim()) {
-                    return 'Password doesn\'t match.';
+                    return passwordMatchValidation;
                   }
                   return null;
                 },
@@ -99,17 +100,17 @@ class SignUp extends StatelessWidget {
                             padding: EdgeInsets.all(8.0),
                             child: CircularProgressIndicator(),
                           )
-                        : const Text('Sign Up'),
+                        : const Text(signup),
                   );
                 },
               ),
               const SizedBox(height: 16),
               RichText(
                 text: TextSpan(
-                  text: 'Already have an account? ',
+                  text: alreadyHaveAccount,
                   children: [
                     TextSpan(
-                      text: 'Login',
+                      text: login,
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           xController.goToLoginPage(context);

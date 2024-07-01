@@ -10,28 +10,36 @@ class PaymentMethodController extends GetxController {
   String getPaymentMethodName(PaymentType type) {
     switch (type) {
       case PaymentType.card:
-        return 'Card';
+        return card;
       case PaymentType.internetBanking:
-        return 'Internet Banking';
+        return internetBanking;
       case PaymentType.upi:
-        return 'UPI';
+        return upi;
       case PaymentType.cod:
-        return 'Cash on Delivery';
+        return cod;
     }
   }
 
   void makePayment(BuildContext context) {
+    if (selectedType.value == null) {
+      showSnackbar(
+        context,
+        content: selectPaymentMethod,
+      );
+      return;
+    }
+
     if (selectedType.value != PaymentType.cod) {
       showSnackbar(
         context,
-        content: 'Sorry! This payment method is curently unavailable.',
+        content: unavailablePaymentMethod,
       );
       return;
     }
 
     showSnackbar(
       context,
-      content: 'Items ordered successfully.',
+      content: orderSuccess,
     );
   }
 }
