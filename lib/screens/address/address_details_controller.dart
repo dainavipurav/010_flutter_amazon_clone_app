@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/enums.dart';
+import '../../core/order_details.dart';
 import '../../core/utils.dart';
 import '../../models/address.dart';
 import '../payment_method/payment_method.dart';
@@ -72,17 +73,19 @@ class AddressDetailsController extends GetxController {
 
       final documentRefData = await dbRef.get();
 
+      final finalAddress = Address(
+        username: nameController.text,
+        mobile: mobileController.text,
+        address: addressController.text,
+        locality: localityController.text,
+        pincode: pincodeController.text,
+        city: cityController.text,
+        state: stateController.text,
+        type: selectedAddressOption.value,
+      );
+
       Map<String, dynamic> addMap = {
-        generateRandomKey(documentRefData.data() ?? {}): Address(
-          username: nameController.text,
-          mobile: mobileController.text,
-          address: addressController.text,
-          locality: localityController.text,
-          pincode: pincodeController.text,
-          city: cityController.text,
-          state: stateController.text,
-          type: selectedAddressOption.value,
-        ).toJson()
+        generateRandomKey(documentRefData.data() ?? {}): finalAddress.toJson()
       };
 
       if (documentRefData.data() == null) {
@@ -90,6 +93,8 @@ class AddressDetailsController extends GetxController {
       } else {
         dbRef.update(addMap);
       }
+
+      OrderDetails.address = finalAddress;
 
       showSnackbar(
         context,

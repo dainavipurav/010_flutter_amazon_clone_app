@@ -15,6 +15,7 @@ const String favoriteListDocumentKey = 'favorite_list';
 const String cartProductsCollectionKey = 'cart_products';
 const String cartListDocumentKey = 'cart_list';
 const String userAddressCollectionKey = 'address';
+const String ordersCollectionKey = 'orders';
 
 const String signUpSuccesMsg =
     'Successfully created account. A verification email has been sent to registered email. $verifyEmailMsg';
@@ -106,3 +107,10 @@ const String createPassword = 'Create Password';
 const String passwordMatchValidation = 'Password doesn\'t match.';
 const String confirmPassword = 'Confirm Password';
 const String alreadyHaveAccount = 'Already have an account? ';
+const String orderConfirmation = 'Order Confirmation';
+const String proceedToBuy = 'Proceed to Buy';
+const String shippingDetails = 'Shipping Details';
+const String total = 'Total';
+const String confirmOrder = 'Confirm Order';
+const String edit = 'Edit';
+const String continueShopping = 'Continue Shopping';

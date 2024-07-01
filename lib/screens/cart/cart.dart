@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/enums.dart';
+import '../../core/utils.dart';
 import '../../widgets/bottom_gadient.dart';
 import '../../widgets/cart_list_item.dart';
 import '../../widgets/no_data_found.dart';
-import '../address/address_details.dart';
 import 'cart_controller.dart';
 
 class Cart extends StatelessWidget {
@@ -109,14 +109,7 @@ class Cart extends StatelessWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const AddressDetails(),
-                          ),
-                        );
-                      },
+                      onPressed: () => xController.proceedToBuy(context),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         foregroundColor: Colors.white,
@@ -126,7 +119,7 @@ class Cart extends StatelessWidget {
                         padding: const EdgeInsets.all(17),
                       ),
                       child: const Text(
-                        'Proceed to Buy',
+                        proceedToBuy,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,

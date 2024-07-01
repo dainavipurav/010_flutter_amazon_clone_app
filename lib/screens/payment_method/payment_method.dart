@@ -33,8 +33,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 Column(
                   children: PaymentType.values
                       .map(
-                        (e) => paymentMethodItem(
-                            xController.getPaymentMethodName(e), e),
+                        (e) => paymentMethodItem(getPaymentMethodName(e), e),
                       )
                       .toList(),
                 ),
@@ -57,9 +56,9 @@ class _PaymentMethodState extends State<PaymentMethod> {
         return InkWell(
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
-          onTap: () => xController.selectedType.value = type,
+          onTap: () => xController.selectedPaymentType.value = type,
           child: Card(
-            color: xController.selectedType.value == type
+            color: xController.selectedPaymentType.value == type
                 ? Theme.of(context).colorScheme.primary
                 : null,
             margin: const EdgeInsets.all(16),
@@ -72,7 +71,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
-                      color: xController.selectedType.value == type
+                      color: xController.selectedPaymentType.value == type
                           ? Colors.white
                           : null,
                     ),
@@ -102,7 +101,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
           padding: const EdgeInsets.all(17),
         ),
         child: const Text(
-          makePayment,
+          continueTxt,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,

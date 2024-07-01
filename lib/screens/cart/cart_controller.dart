@@ -3,8 +3,11 @@ import 'package:get/get.dart';
 
 import '../../core/dialog.dart';
 import '../../core/enums.dart';
+import '../../core/order_details.dart';
 import '../../core/utils.dart';
+import '../../models/ordered_product.dart';
 import '../../models/product.dart';
+import '../address/address_details.dart';
 
 class CartController extends GetxController {
   RxList<Product> products = RxList<Product>();
@@ -59,5 +62,30 @@ class CartController extends GetxController {
                 .toPrecision(2);
       }
     }
+  }
+
+  void proceedToBuy(BuildContext context) {
+    OrderDetails.selectedProducts.clear();
+    OrderDetails.totalAmount = subTotal.value;
+
+    for (var element in cartList) {
+      OrderDetails.selectedProducts.add(
+        OrderedProduct(
+          product: element,
+          quantity: cartMap[element.id.toString()],
+        ),
+      );
+    }
+
+    for (var element in OrderDetails.selectedProducts) {
+      print('Ordered Product : ${element.toJson()}');
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const AddressDetails(),
+      ),
+    );
   }
 }

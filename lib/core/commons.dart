@@ -287,3 +287,16 @@ String generateRandomKey(Map<String, dynamic> map) {
     }
   }
 }
+
+String getPaymentMethodName(PaymentType type) {
+  switch (type) {
+    case PaymentType.card:
+      return card;
+    case PaymentType.internetBanking:
+      return internetBanking;
+    case PaymentType.upi:
+      return upi;
+    case PaymentType.cod:
+      return cod;
+  }
+}
