@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../core/enums.dart';
 import '../models/product.dart';
+import '../screens/product_details/product_details.dart';
 
 class CartListItem extends StatelessWidget {
   const CartListItem({
@@ -18,17 +19,26 @@ class CartListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          image(),
-          const SizedBox(width: 10),
-          productSpecifications(context),
-        ],
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ProductDetails(product: product),
+          ),
+        );
+      },
+      child: Card(
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            image(),
+            const SizedBox(width: 10),
+            productSpecifications(context),
+          ],
+        ),
       ),
     );
   }

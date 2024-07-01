@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/product.dart';
+import '../screens/product_details/product_details.dart';
 
 class SearchListItem extends StatelessWidget {
   const SearchListItem({
@@ -15,26 +16,35 @@ class SearchListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      clipBehavior: Clip.antiAliasWithSaveLayer,
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      child: Stack(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              image(),
-              const SizedBox(width: 10),
-              productSpecifications(context),
-            ],
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ProductDetails(product: product),
           ),
-          Positioned(
-            right: 0,
-            top: 0,
-            child: addToFavoriteIcon(context),
-          ),
-        ],
+        );
+      },
+      child: Card(
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        child: Stack(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                image(),
+                const SizedBox(width: 10),
+                productSpecifications(context),
+              ],
+            ),
+            Positioned(
+              right: 0,
+              top: 0,
+              child: addToFavoriteIcon(context),
+            ),
+          ],
+        ),
       ),
     );
   }
