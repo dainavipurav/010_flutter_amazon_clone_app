@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../core/utils.dart';
 import '../cart/cart.dart';
 import '../home/home.dart';
+import '../profile/profile.dart';
 import 'dashboard_controller.dart';
 
 class Dashboard extends StatelessWidget {
@@ -12,12 +13,11 @@ class Dashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final xController = Get.put(DashboardController());
-
     return Obx(
       () {
         return Scaffold(
           appBar: AppBar(
-            title: const Text(dashboard),
+            title: Text(xController.appBarTitle.value),
             actions: [
               IconButton(
                 onPressed: () => xController.goToSearchListPage(context),
@@ -35,7 +35,7 @@ class Dashboard extends StatelessWidget {
           ),
           body: bodyContent(xController.selectedIndex.value),
           bottomNavigationBar: BottomNavigationBar(
-            onTap: (value) => xController.selectedIndex(value),
+            onTap: xController.changeTab,
             currentIndex: xController.selectedIndex.value,
             items: bottomNavItems(),
           ),
@@ -51,9 +51,7 @@ class Dashboard extends StatelessWidget {
       case 1:
         return const Cart();
       case 2:
-        return const Center(
-          child: Text(profile),
-        );
+        return const Profile();
       default:
         return const Home();
     }

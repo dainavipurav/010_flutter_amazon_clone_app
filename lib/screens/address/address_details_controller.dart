@@ -30,14 +30,45 @@ class AddressDetailsController extends GetxController {
 
   @override
   void dispose() {
-    nameController.dispose();
-    pincodeController.dispose();
-    addressController.dispose();
-    localityController.dispose();
-    cityController.dispose();
-    stateController.dispose();
-    mobileController.dispose();
+    super.dispose();
+    disposeFormFields();
+  }
 
+  void clearFocus() {
+    if (nameFocusNode.hasFocus) {
+      nameFocusNode.unfocus();
+    }
+    if (pincodeFocusNode.hasFocus) {
+      pincodeFocusNode.unfocus();
+    }
+    if (addressFocusNode.hasFocus) {
+      addressFocusNode.unfocus();
+    }
+    if (localityFocusNode.hasFocus) {
+      localityFocusNode.unfocus();
+    }
+    if (cityFocusNode.hasFocus) {
+      cityFocusNode.unfocus();
+    }
+    if (stateFocusNode.hasFocus) {
+      stateFocusNode.unfocus();
+    }
+    if (mobileFocusNode.hasFocus) {
+      mobileFocusNode.unfocus();
+    }
+  }
+
+  clearformFields() {
+    nameController.clear();
+    pincodeController.clear();
+    addressController.clear();
+    localityController.clear();
+    cityController.clear();
+    stateController.clear();
+    mobileController.clear();
+  }
+
+  void disposeFocusNodes() {
     nameFocusNode.dispose();
     pincodeFocusNode.dispose();
     addressFocusNode.dispose();
@@ -45,8 +76,23 @@ class AddressDetailsController extends GetxController {
     cityFocusNode.dispose();
     stateFocusNode.dispose();
     mobileFocusNode.dispose();
+  }
 
-    super.dispose();
+  void disposeTextEditingControllers() {
+    nameController.dispose();
+    pincodeController.dispose();
+    addressController.dispose();
+    localityController.dispose();
+    cityController.dispose();
+    stateController.dispose();
+    mobileController.dispose();
+  }
+
+  void disposeFormFields() {
+    clearFocus();
+    clearformFields();
+    disposeFocusNodes();
+    disposeTextEditingControllers();
   }
 
   Future<void> validateFormAndCheckout(BuildContext context) async {
@@ -55,6 +101,8 @@ class AddressDetailsController extends GetxController {
       await saveAddressToFirebase(context);
       formKey.currentState!.reset();
       selectedAddressOption.value = null;
+      clearFocus();
+      clearformFields();
       await Navigator.push(
         context,
         MaterialPageRoute(

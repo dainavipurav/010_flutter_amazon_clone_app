@@ -9,6 +9,7 @@ import '../favorite_list/favorite_list.dart';
 
 class DashboardController extends GetxController {
   RxInt selectedIndex = RxInt(0);
+  RxString appBarTitle = RxString('Home');
 
   void logout(BuildContext context) async {
     try {
@@ -57,5 +58,23 @@ class DashboardController extends GetxController {
         builder: (context) => const FavoriteList(),
       ),
     );
+  }
+
+  void changeTab(int index) {
+    selectedIndex(index);
+    appBarTitle.value = setAppBarTitle();
+  }
+
+  String setAppBarTitle() {
+    switch (selectedIndex.value) {
+      case 0:
+        return 'Home';
+      case 1:
+        return 'Cart';
+      case 2:
+        return 'Profile';
+      default:
+        return 'Home';
+    }
   }
 }
