@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -49,11 +46,22 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBVDUUjw0HFKjcuXN_i1UOsQb7pxMnMezY',
+    appId: '1:604178995544:web:637cd0fe4c3856aa27ad2d',
+    messagingSenderId: '604178995544',
+    projectId: 'clone-7833c',
+    authDomain: 'clone-7833c.firebaseapp.com',
+    databaseURL: 'https://clone-7833c-default-rtdb.firebaseio.com',
+    storageBucket: 'clone-7833c.appspot.com',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDgR7W4_hU10MgekQ00qLf54wJoR-EDBjY',
     appId: '1:604178995544:android:eb1f4937ae6197b727ad2d',
     messagingSenderId: '604178995544',
     projectId: 'clone-7833c',
+    databaseURL: 'https://clone-7833c-default-rtdb.firebaseio.com',
     storageBucket: 'clone-7833c.appspot.com',
   );
 
@@ -62,6 +70,7 @@ class DefaultFirebaseOptions {
     appId: '1:604178995544:ios:7712ac18fac82f0927ad2d',
     messagingSenderId: '604178995544',
     projectId: 'clone-7833c',
+    databaseURL: 'https://clone-7833c-default-rtdb.firebaseio.com',
     storageBucket: 'clone-7833c.appspot.com',
     iosBundleId: 'com.amazon.clone.amazon',
   );
