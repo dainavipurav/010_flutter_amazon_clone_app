@@ -72,6 +72,6 @@ class DefaultFirebaseOptions {
     projectId: 'clone-7833c',
     databaseURL: 'https://clone-7833c-default-rtdb.firebaseio.com',
     storageBucket: 'clone-7833c.appspot.com',
-    iosBundleId: 'com.amazon.clone.amazon',
+    iosBundleId: 'com.amazon.clone',
   );
 }
