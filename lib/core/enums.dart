@@ -17,3 +17,9 @@ enum PaymentType {
   upi,
   cod,
 }
+
+enum PaymentStatus {
+  success,
+  fail,
+  wallet,
+}

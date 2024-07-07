@@ -132,8 +132,10 @@ class AddressDetailsController extends GetxController {
         type: selectedAddressOption.value,
       );
 
+      OrderDetails.addressId = generateRandomKey(documentRefData.data() ?? {});
+
       Map<String, dynamic> addMap = {
-        generateRandomKey(documentRefData.data() ?? {}): finalAddress.toJson()
+        OrderDetails.addressId!: finalAddress.toJson()
       };
 
       if (documentRefData.data() == null) {

@@ -164,6 +164,7 @@ class _AddressDetailsState extends State<AddressDetails> {
             FilteringTextInputFormatter.digitsOnly,
             LengthLimitingTextInputFormatter(6),
           ],
+          keyboardType: TextInputType.number,
           controller: xController.pincodeController,
           focusNode: xController.pincodeFocusNode,
           validator: (value) {

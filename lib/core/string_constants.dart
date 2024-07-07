@@ -114,3 +114,7 @@ const String total = 'Total';
 const String confirmOrder = 'Confirm Order';
 const String edit = 'Edit';
 const String continueShopping = 'Continue Shopping';
+
+const String paymentSuccess = 'Payment receviced successfully.';
+const String paymentFailure = 'Payment failed.';
+const String paymentWallet = 'Wallet';
