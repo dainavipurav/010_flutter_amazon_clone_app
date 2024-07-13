@@ -10,6 +10,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/product.dart';
+import '../models/user_details.dart';
 import 'enums.dart';
 
 part 'commons.dart';

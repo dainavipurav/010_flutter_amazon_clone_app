@@ -1,17 +1,30 @@
-import 'package:amazon/core/utils.dart';
-import 'package:amazon/screens/profile/profile_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class EditProfile extends StatelessWidget {
+import '../../core/enums.dart';
+import '../../core/utils.dart';
+import 'profile_controller.dart';
+
+class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
 
   @override
+  State<EditProfile> createState() => _EditProfileState();
+}
+
+class _EditProfileState extends State<EditProfile> {
+  final xController = Get.find<ProfileController>();
+  @override
+  void initState() {
+    xController.initializeAllControllers();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final xController = Get.find<ProfileController>();
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Edit Profile'),
+        title: const Text(editProfile),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(
@@ -19,72 +32,152 @@ class EditProfile extends StatelessWidget {
           vertical: 10,
         ),
         child: Form(
+          key: xController.formKey,
           child: Column(
             children: [
-              TextFormField(
-                controller: xController.usernameController,
-                focusNode: xController.usernameFocusNode,
-                decoration: const InputDecoration(labelText: username),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return usernameValidation;
-                  }
-                  return null;
-                },
-              ),
+              usernameField(),
               const SizedBox(height: 20),
-              TextFormField(
-                controller: xController.emailController,
-                focusNode: xController.emailFocusNode,
-                decoration: const InputDecoration(labelText: email),
-                validator: (value) {
-                  if (value == null ||
-                      value.trim().isEmpty ||
-                      value.contains('@') == false) {
-                    return emailValidation;
-                  }
-                  return null;
-                },
-              ),
+              firstNameField(),
               const SizedBox(height: 20),
-              TextFormField(
-                controller: xController.mobileController,
-                focusNode: xController.mobileFocusNode,
-                decoration: const InputDecoration(labelText: mobile),
-                validator: (value) {
-                  if (value == null || value.trim().length != 10) {
-                    return mobileValidation;
-                  }
-                  return null;
-                },
-              ),
+              lastNameField(),
+              const SizedBox(height: 20),
+              emailField(),
+              const SizedBox(height: 20),
+              mobileField(),
               const SizedBox(height: 40),
-              DropdownButtonFormField(
-                items: [
-                  DropdownMenuItem(
-                    child: Text('Male'),
-                    value: 'Male',
-                  ),
-                  DropdownMenuItem(
-                    child: Text('Female'),
-                    value: 'Female',
-                  ),
-                  DropdownMenuItem(
-                    child: Text('Other'),
-                    value: 'Other',
-                  ),
-                ],
-                onChanged: (value) {},
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              )
+              genderField(),
+              const SizedBox(height: 40),
+              save(),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget genderField() {
+    return Obx(
+      () {
+        return DropdownButtonFormField<Gender>(
+          items: [
+            DropdownMenuItem(
+              value: Gender.male,
+              child: Text(Gender.male.name.capitalizeFirst!),
+            ),
+            DropdownMenuItem(
+              value: Gender.female,
+              child: Text(Gender.female.name.capitalizeFirst!),
+            ),
+            DropdownMenuItem(
+              value: Gender.other,
+              child: Text(Gender.other.name.capitalizeFirst!),
+            ),
+          ],
+          onChanged: (value) {
+            xController.selectedGender.value = value;
+          },
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          hint: const Text(gender),
+          value: xController.selectedGender.value,
+        );
+      },
+    );
+  }
+
+  Widget mobileField() {
+    return TextFormField(
+      controller: xController.mobileController,
+      focusNode: xController.mobileFocusNode,
+      decoration: const InputDecoration(labelText: mobile),
+    );
+  }
+
+  Widget emailField() {
+    return TextFormField(
+      controller: xController.emailController,
+      focusNode: xController.emailFocusNode,
+      decoration: const InputDecoration(
+        labelText: email,
+        enabled: false,
+      ),
+      readOnly: true,
+      enabled: false,
+    );
+  }
+
+  Widget lastNameField() {
+    return TextFormField(
+      controller: xController.lastNameController,
+      focusNode: xController.lastNameFocusNode,
+      decoration: const InputDecoration(labelText: lastName),
+    );
+  }
+
+  Widget firstNameField() {
+    return TextFormField(
+      controller: xController.firstNameController,
+      focusNode: xController.firstNameFocusNode,
+      decoration: const InputDecoration(labelText: firstName),
+    );
+  }
+
+  Widget usernameField() {
+    return TextFormField(
+      controller: xController.usernameController,
+      focusNode: xController.usernameFocusNode,
+      decoration: const InputDecoration(labelText: username),
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) {
+          return usernameValidation;
+        }
+        return null;
+      },
+    );
+  }
+
+  Widget save() {
+    return Obx(
+      () {
+        return ElevatedButton(
+          onPressed: () => xController.updateProfileDetails(context),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            padding: const EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: 20,
+            ),
+          ),
+          child: SizedBox(
+            height: 24,
+            width: 50,
+            child: Center(
+              child: xController.isProfileUpdating.value
+                  ? const SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                      ),
+                    )
+                  : const Text(
+                      saveText,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

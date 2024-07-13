@@ -20,15 +20,34 @@ Future<void> storUserDetailsTofirestore({
   required String password,
   required String userName,
 }) async {
+  final currentUserDocument = await firebaseFirestore
+      .collection(userCollectionKey)
+      .doc(firebaseAuth.currentUser!.uid)
+      .get();
+
+  UserDetails updatedUserDetails = UserDetails(
+    id: firebaseAuth.currentUser!.uid,
+    username: userName,
+    email: firebaseAuth.currentUser!.email,
+    password: password,
+  );
+
+  if (currentUserDocument.exists) {
+    final existingUserDetails =
+        UserDetails.fromJson(currentUserDocument.data() ?? {});
+    updatedUserDetails.firstName = existingUserDetails.firstName;
+    updatedUserDetails.lastName = existingUserDetails.lastName;
+    updatedUserDetails.gender = existingUserDetails.gender;
+    updatedUserDetails.mobile = existingUserDetails.mobile;
+    updatedUserDetails.image = existingUserDetails.image;
+  }
+
+  print('Updated user details : ${updatedUserDetails.toJson()}');
+
   await firebaseFirestore
       .collection(userCollectionKey)
       .doc(firebaseAuth.currentUser!.uid)
-      .set({
-    userIdKey: firebaseAuth.currentUser!.uid,
-    usernameKey: userName,
-    userEmailKey: firebaseAuth.currentUser!.email,
-    userPasswordKey: password,
-  });
+      .set(updatedUserDetails.toJson());
 }
 
 /// Data to be fetched from realtime database

@@ -23,3 +23,9 @@ enum PaymentStatus {
   fail,
   wallet,
 }
+
+enum Gender {
+  male,
+  female,
+  other,
+}
