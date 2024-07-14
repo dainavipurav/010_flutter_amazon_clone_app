@@ -114,7 +114,25 @@ class ProfileController extends GetxController {
           .doc(firebaseAuth.currentUser!.uid)
           .set(updatedUserDetails.toJson());
 
+      print('Previous details : ${userDetails.toJson()}');
+
       userDetails.value = updatedUserDetails;
+
+      userDetails.update(
+        (val) {
+          val!.id = updatedUserDetails.id;
+          val.username = updatedUserDetails.username;
+          val.firstName = updatedUserDetails.firstName;
+          val.lastName = updatedUserDetails.lastName;
+          val.email = updatedUserDetails.email;
+          val.password = updatedUserDetails.password;
+          val.mobile = updatedUserDetails.mobile;
+          val.gender = updatedUserDetails.gender;
+          val.image = updatedUserDetails.image;
+        },
+      );
+
+      print('updated details : ${userDetails.toJson()}');
 
       showSnackbar(
         context,
@@ -183,12 +201,62 @@ class ProfileController extends GetxController {
       backgroundColor: Theme.of(context).colorScheme.surface,
       elevation: 20,
       builder: (ctx) => ImagePickerSelection(
-        onTap: (type) => pickImage(
+        onTap: (type) => updateImage(
           context,
           type: type,
         ),
+        showRemoveImageOption: userDetails.value.image == null ||
+                userDetails.value.image!.trim().isEmpty
+            ? false
+            : true,
       ),
     );
+  }
+
+  void updateImage(BuildContext context,
+      {required ImagePickerType type}) async {
+    if (type == ImagePickerType.remove) {
+      await removeImage(context);
+    } else {
+      pickImage(context, type: type);
+    }
+  }
+
+  Future<void> removeImage(BuildContext context) async {
+    Navigator.pop(context);
+    AmazonDialog.showLoaderDialog(context);
+
+    try {
+      Reference ref = firebaseStorage.ref().child(userimages);
+
+      // List all files in the root directory
+      ListResult result = await ref.listAll();
+
+      // Filter and delete files starting with 'image'
+      for (Reference ref in result.items) {
+        if (ref.name.startsWith('${firebaseAuth.currentUser!.uid}.')) {
+          await ref.delete();
+          print('Deleted ${ref.name}');
+        }
+      }
+
+      final updatedUserDetails = userDetails.value;
+      updatedUserDetails.image = null;
+
+      await updateDetails(
+        context,
+        updatedUserDetails: updatedUserDetails,
+      );
+
+      Navigator.of(context).pop();
+    } on FirebaseException catch (e) {
+      Navigator.pop(context);
+      showSnackbar(
+        context,
+        content: e.message ?? errorOcurred,
+      );
+      return;
+    }
   }
 
   void pickImage(BuildContext context, {required ImagePickerType type}) async {
@@ -221,7 +289,7 @@ class ProfileController extends GetxController {
           .child(userimages)
           .child('${firebaseAuth.currentUser!.uid}$imageExtension');
 
-      ref.putFile(pickedFile);
+      await ref.putFile(pickedFile);
 
       final imageDownloadUrl = await ref.getDownloadURL();
 

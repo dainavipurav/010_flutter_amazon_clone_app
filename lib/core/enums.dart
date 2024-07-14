@@ -33,4 +33,5 @@ enum Gender {
 enum ImagePickerType {
   files,
   camera,
+  remove,
 }

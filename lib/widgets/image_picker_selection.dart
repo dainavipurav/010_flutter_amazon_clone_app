@@ -6,9 +6,14 @@ import '../core/utils.dart';
 import '../screens/profile/profile_controller.dart';
 
 class ImagePickerSelection extends StatefulWidget {
-  const ImagePickerSelection({super.key, this.onTap});
+  const ImagePickerSelection({
+    super.key,
+    this.onTap,
+    this.showRemoveImageOption = true,
+  });
 
   final void Function(ImagePickerType)? onTap;
+  final bool showRemoveImageOption;
 
   @override
   State<ImagePickerSelection> createState() => _ImagePickerSelectionState();
@@ -45,6 +50,13 @@ class _ImagePickerSelectionState extends State<ImagePickerSelection> {
           height: 0,
         ),
         listItemLayout(type: ImagePickerType.files),
+        if (widget.showRemoveImageOption) ...[
+          Divider(
+            color: Colors.grey.withOpacity(0.5),
+            height: 0,
+          ),
+          listItemLayout(type: ImagePickerType.remove),
+        ],
       ],
     );
   }
@@ -69,6 +81,8 @@ class _ImagePickerSelectionState extends State<ImagePickerSelection> {
         return Icons.camera_alt_outlined;
       case ImagePickerType.files:
         return Icons.folder_outlined;
+      case ImagePickerType.remove:
+        return Icons.delete_outline;
       default:
         return Icons.file_copy;
     }
