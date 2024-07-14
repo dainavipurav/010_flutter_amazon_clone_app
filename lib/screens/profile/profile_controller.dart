@@ -215,6 +215,7 @@ class ProfileController extends GetxController {
 
   void updateImage(BuildContext context,
       {required ImagePickerType type}) async {
+    Navigator.pop(context);
     if (type == ImagePickerType.remove) {
       await removeImage(context);
     } else {
@@ -223,7 +224,6 @@ class ProfileController extends GetxController {
   }
 
   Future<void> removeImage(BuildContext context) async {
-    Navigator.pop(context);
     AmazonDialog.showLoaderDialog(context);
 
     try {
@@ -260,7 +260,6 @@ class ProfileController extends GetxController {
   }
 
   void pickImage(BuildContext context, {required ImagePickerType type}) async {
-    Navigator.pop(context);
     try {
       final ImagePicker picker = ImagePicker();
       final XFile? pickedImage = await picker.pickImage(

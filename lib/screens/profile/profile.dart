@@ -105,10 +105,29 @@ class _ProfileState extends State<Profile> {
             CircleAvatar(
               radius: 64,
               backgroundColor: Colors.grey.withOpacity(0.3),
-              backgroundImage: xController.userDetails.value.image == null ||
-                      xController.userDetails.value.image!.trim().isEmpty
-                  ? const AssetImage(defaultProfileImagePath)
-                  : NetworkImage(xController.userDetails.value.image!),
+              child: ClipOval(
+                child: xController.userDetails.value.image == null ||
+                        xController.userDetails.value.image!.trim().isEmpty
+                    ? Image.asset(
+                        defaultProfileImagePath, // Your asset image
+                        fit: BoxFit.fill,
+                        width: double.infinity,
+                        height: double.infinity,
+                      )
+                    : Image.network(
+                        xController.userDetails.value.image!,
+                        fit: BoxFit.fill,
+                        width: double.infinity,
+                        height: double.infinity,
+                        errorBuilder: (context, error, stackTrace) =>
+                            Image.asset(
+                          defaultProfileImagePath, // Your asset image
+                          fit: BoxFit.fill,
+                          width: double.infinity,
+                          height: double.infinity,
+                        ),
+                      ),
+              ),
             ),
             Positioned(
               right: 0,
