@@ -9,6 +9,7 @@ const String userPasswordKey = 'user_password';
 
 const String isLoggedInKey = 'is_logged_in';
 
+const String userimages = 'user_images';
 const String userCollectionKey = 'users';
 const String favoriteProductsCollectionKey = 'favorite_products';
 const String favoriteListDocumentKey = 'favorite_list';
@@ -127,3 +128,4 @@ const String editProfile = 'Edit Profile';
 const String profileUpdateSuccess = 'Profile updated successfully';
 const String anonymousUser = 'Anonymous user';
 const String defaultProfileImagePath = 'assets/images/profile_pic.png';
+const String uploadPhoto = 'Upload Photo';

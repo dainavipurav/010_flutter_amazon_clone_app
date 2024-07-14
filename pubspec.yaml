@@ -18,7 +18,9 @@ dependencies:
   get_storage: ^2.1.1
   hive_generator: ^2.0.1
   http: ^1.2.1
+  image_picker: ^1.1.2
   json_annotation: ^4.9.0
+  path: ^1.9.0
   razorpay_web: ^1.4.2
 
 dev_dependencies:

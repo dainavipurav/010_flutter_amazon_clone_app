@@ -116,7 +116,7 @@ class _ProfileState extends State<Profile> {
               child: CircleAvatar(
                 radius: 20,
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () => xController.updateProfileImage(context),
                   icon: const Icon(Icons.edit),
                   color: Theme.of(context).colorScheme.primary,
                 ),

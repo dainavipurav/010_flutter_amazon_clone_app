@@ -1,10 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as p;
 
+import '../../core/dialog.dart';
 import '../../core/enums.dart';
 import '../../core/utils.dart';
 import '../../models/user_details.dart';
+import '../../widgets/image_picker_selection.dart';
 import 'edit_profile.dart';
 
 class ProfileController extends GetxController {
@@ -92,6 +98,16 @@ class ProfileController extends GetxController {
 
     print('Updated user details : ${updatedUserDetails.toJson()}');
 
+    await updateDetails(
+      context,
+      updatedUserDetails: updatedUserDetails,
+    );
+
+    isProfileUpdating.value = false;
+  }
+
+  Future<void> updateDetails(BuildContext context,
+      {required UserDetails updatedUserDetails}) async {
     try {
       await firebaseFirestore
           .collection(userCollectionKey)
@@ -99,6 +115,7 @@ class ProfileController extends GetxController {
           .set(updatedUserDetails.toJson());
 
       userDetails.value = updatedUserDetails;
+
       showSnackbar(
         context,
         content: profileUpdateSuccess,
@@ -109,7 +126,6 @@ class ProfileController extends GetxController {
         content: e.message ?? errorOcurred,
       );
     }
-    isProfileUpdating.value = false;
   }
 
   void clearFocus() {
@@ -159,5 +175,79 @@ class ProfileController extends GetxController {
     clearformFields();
     disposeFocusNodes();
     disposeTextEditingControllers();
+  }
+
+  void updateProfileImage(BuildContext context) async {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      elevation: 20,
+      builder: (ctx) => ImagePickerSelection(
+        onTap: (type) => pickImage(
+          context,
+          type: type,
+        ),
+      ),
+    );
+  }
+
+  void pickImage(BuildContext context, {required ImagePickerType type}) async {
+    Navigator.pop(context);
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? pickedImage = await picker.pickImage(
+        source: type == ImagePickerType.camera
+            ? ImageSource.camera
+            : ImageSource.gallery,
+      );
+
+      if (pickedImage == null) {
+        showSnackbar(
+          context,
+          content: type == ImagePickerType.camera
+              ? 'No Image captured'
+              : 'No Image selected',
+        );
+        return;
+      }
+
+      AmazonDialog.showLoaderDialog(context);
+
+      final pickedFile = File(pickedImage.path);
+      final imageExtension = p.extension(pickedFile.path);
+
+      Reference ref = firebaseStorage
+          .ref()
+          .child(userimages)
+          .child('${firebaseAuth.currentUser!.uid}$imageExtension');
+
+      ref.putFile(pickedFile);
+
+      final imageDownloadUrl = await ref.getDownloadURL();
+
+      final updatedUserDetails = userDetails.value;
+      updatedUserDetails.image = imageDownloadUrl;
+
+      await updateDetails(
+        context,
+        updatedUserDetails: updatedUserDetails,
+      );
+
+      Navigator.of(context).pop();
+    } on FirebaseException catch (e) {
+      Navigator.pop(context);
+      showSnackbar(
+        context,
+        content: e.message ?? errorOcurred,
+      );
+      return;
+    } on Exception catch (e) {
+      Navigator.pop(context);
+      showSnackbar(
+        context,
+        content: e.toString(),
+      );
+      return;
+    }
   }
 }
