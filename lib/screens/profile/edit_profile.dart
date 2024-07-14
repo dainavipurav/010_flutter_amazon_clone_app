@@ -58,31 +58,42 @@ class _EditProfileState extends State<EditProfile> {
   Widget genderField() {
     return Obx(
       () {
-        return DropdownButtonFormField<Gender>(
-          items: [
-            DropdownMenuItem(
-              value: Gender.male,
-              child: Text(Gender.male.name.capitalizeFirst!),
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              gender,
+              style: TextStyle(fontSize: 12),
             ),
-            DropdownMenuItem(
-              value: Gender.female,
-              child: Text(Gender.female.name.capitalizeFirst!),
-            ),
-            DropdownMenuItem(
-              value: Gender.other,
-              child: Text(Gender.other.name.capitalizeFirst!),
+            const SizedBox(height: 8),
+            DropdownButtonFormField<Gender>(
+              items: [
+                DropdownMenuItem(
+                  value: Gender.male,
+                  child: Text(Gender.male.name.capitalizeFirst!),
+                ),
+                DropdownMenuItem(
+                  value: Gender.female,
+                  child: Text(Gender.female.name.capitalizeFirst!),
+                ),
+                DropdownMenuItem(
+                  value: Gender.other,
+                  child: Text(Gender.other.name.capitalizeFirst!),
+                ),
+              ],
+              onChanged: (value) {
+                xController.selectedGender.value = value;
+              },
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              hint: const Text(gender),
+              value: xController.selectedGender.value,
             ),
           ],
-          onChanged: (value) {
-            xController.selectedGender.value = value;
-          },
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-          hint: const Text(gender),
-          value: xController.selectedGender.value,
         );
       },
     );
