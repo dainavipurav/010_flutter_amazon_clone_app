@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../core/enums.dart';
@@ -104,6 +105,17 @@ class _EditProfileState extends State<EditProfile> {
       controller: xController.mobileController,
       focusNode: xController.mobileFocusNode,
       decoration: const InputDecoration(labelText: mobile),
+      keyboardType: TextInputType.phone,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly,
+        LengthLimitingTextInputFormatter(10),
+      ],
+      validator: (value) {
+        if (value != null && value.length != 10) {
+          return validMobileValidation;
+        }
+        return null;
+      },
     );
   }
 
@@ -125,6 +137,7 @@ class _EditProfileState extends State<EditProfile> {
       controller: xController.lastNameController,
       focusNode: xController.lastNameFocusNode,
       decoration: const InputDecoration(labelText: lastName),
+      keyboardType: TextInputType.name,
     );
   }
 
@@ -133,6 +146,7 @@ class _EditProfileState extends State<EditProfile> {
       controller: xController.firstNameController,
       focusNode: xController.firstNameFocusNode,
       decoration: const InputDecoration(labelText: firstName),
+      keyboardType: TextInputType.name,
     );
   }
 
