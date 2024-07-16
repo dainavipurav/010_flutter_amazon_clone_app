@@ -70,6 +70,8 @@ class ProfileController extends GetxController {
   }
 
   Future<void> updateProfileDetails(BuildContext context) async {
+    clearFocus();
+
     if (isProfileUpdating.value) {
       return;
     }
