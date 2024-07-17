@@ -15,25 +15,30 @@ class SavedAddressList extends StatelessWidget {
   Widget build(BuildContext context) {
     xController.getAllSavedAddresses();
 
-    return Obx(
-      () {
-        if (xController.isLoading.value) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(savedAddresses),
+      ),
+      body: Obx(
+        () {
+          if (xController.isLoading.value) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
-        if (xController.savedAddressMap.isEmpty) {
-          return const NoDataFound(
-            msg: noSavedAddresses,
-          );
-        }
+          if (xController.savedAddressMap.isEmpty) {
+            return const NoDataFound(
+              msg: noSavedAddresses,
+            );
+          }
 
-        return ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          children: data(),
-        );
-      },
+          return ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            children: data(),
+          );
+        },
+      ),
     );
   }
 

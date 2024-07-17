@@ -24,47 +24,53 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
-    if (firebaseAuth.currentUser == null) {
-      return const NoDataFound();
-    }
-
-    return Obx(
-      () {
-        if (xController.isLoading.value) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        return ListView(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 10,
-          ),
-          children: [
-            profileImage(),
-            const SizedBox(height: 20),
-            editButton(),
-            const SizedBox(height: 20),
-            section(firstName, xController.userDetails.value.firstName ?? '-'),
-            const SizedBox(height: 20),
-            section(lastName, xController.userDetails.value.lastName ?? '-'),
-            const SizedBox(height: 20),
-            section(email, xController.userDetails.value.email ?? '-'),
-            const SizedBox(height: 20),
-            section(mobile, xController.userDetails.value.mobile ?? '-'),
-            const SizedBox(height: 20),
-            section(
-              gender,
-              xController.userDetails.value.gender == null
-                  ? '-'
-                  : xController
-                          .userDetails.value.gender!.name.capitalizeFirst ??
-                      '',
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(profile),
+      ),
+      body: firebaseAuth.currentUser == null
+          ? const NoDataFound()
+          : Obx(
+              () {
+                if (xController.isLoading.value) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return ListView(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
+                  children: [
+                    profileImage(),
+                    const SizedBox(height: 20),
+                    editButton(),
+                    const SizedBox(height: 20),
+                    section(firstName,
+                        xController.userDetails.value.firstName ?? '-'),
+                    const SizedBox(height: 20),
+                    section(lastName,
+                        xController.userDetails.value.lastName ?? '-'),
+                    const SizedBox(height: 20),
+                    section(email, xController.userDetails.value.email ?? '-'),
+                    const SizedBox(height: 20),
+                    section(
+                        mobile, xController.userDetails.value.mobile ?? '-'),
+                    const SizedBox(height: 20),
+                    section(
+                      gender,
+                      xController.userDetails.value.gender == null
+                          ? '-'
+                          : xController.userDetails.value.gender!.name
+                                  .capitalizeFirst ??
+                              '',
+                    ),
+                    const SizedBox(height: 50),
+                  ],
+                );
+              },
             ),
-            const SizedBox(height: 50),
-          ],
-        );
-      },
     );
   }
 

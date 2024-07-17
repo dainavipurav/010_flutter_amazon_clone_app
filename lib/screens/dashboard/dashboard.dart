@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/utils.dart';
+import '../account/account.dart';
 import '../cart/cart.dart';
 import '../home/home.dart';
-import '../profile/profile.dart';
 import 'dashboard_controller.dart';
 
 class Dashboard extends StatelessWidget {
@@ -51,7 +51,7 @@ class Dashboard extends StatelessWidget {
       case 1:
         return const Cart();
       case 2:
-        return const Profile();
+        return const Account();
       default:
         return const Home();
     }
@@ -84,7 +84,7 @@ class Dashboard extends StatelessWidget {
         activeIcon: Icon(
           Icons.person_2,
         ),
-        label: profile,
+        label: account,
       ),
     ];
   }

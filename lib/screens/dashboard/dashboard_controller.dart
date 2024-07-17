@@ -72,7 +72,7 @@ class DashboardController extends GetxController {
       case 1:
         return cart;
       case 2:
-        return profile;
+        return account;
       default:
         return home;
     }

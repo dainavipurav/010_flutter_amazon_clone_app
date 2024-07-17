@@ -33,6 +33,7 @@ const String processDetailsSuccesMsg = 'Successfully processed data.';
 const String home = 'Home';
 const String cart = 'Cart';
 const String profile = 'Profile';
+const String account = 'Account';
 
 const String dbCollectionName = 'amazon';
 const String productsFileName = 'products.json';
