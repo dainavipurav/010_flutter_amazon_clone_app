@@ -68,13 +68,13 @@ class DashboardController extends GetxController {
   String setAppBarTitle() {
     switch (selectedIndex.value) {
       case 0:
-        return 'Home';
+        return home;
       case 1:
-        return 'Cart';
+        return cart;
       case 2:
-        return 'Profile';
+        return profile;
       default:
-        return 'Home';
+        return home;
     }
   }
 }

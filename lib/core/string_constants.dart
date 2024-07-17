@@ -132,3 +132,5 @@ const String anonymousUser = 'Anonymous user';
 const String defaultProfileImagePath = 'assets/images/profile_pic.png';
 const String uploadPhoto = 'Upload Photo';
 const String currentlyUnavailable = 'Currently Unavailable';
+const String savedAddresses = 'Saved Addresses';
+const String noSavedAddresses = 'No Saved Address Found';

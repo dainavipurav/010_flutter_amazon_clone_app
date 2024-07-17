@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../core/order_details.dart';
 import '../../core/utils.dart';
 import '../../widgets/bottom_gadient.dart';
+import '../../widgets/detail_card.dart';
 import 'order_confirmation_controller.dart';
 
 class OrderConfirmation extends StatelessWidget {
@@ -24,11 +25,10 @@ class OrderConfirmation extends StatelessWidget {
           children: [
             ListView(
               children: [
-                shippingDetailCard(
-                  context,
+                DetailCard(
                   heading: shippingDetails,
                   showEdit: true,
-                  cardChild: Column(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -60,11 +60,10 @@ class OrderConfirmation extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                shippingDetailCard(
-                  context,
+                DetailCard(
                   heading: paymentMethod,
                   showEdit: true,
-                  cardChild: Text(
+                  child: Text(
                     getPaymentMethodName(OrderDetails.paymentMethod),
                     style: const TextStyle(
                       fontSize: 14,
@@ -132,61 +131,6 @@ class OrderConfirmation extends StatelessWidget {
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget shippingDetailCard(
-    BuildContext context, {
-    required String heading,
-    bool showEdit = false,
-    required Widget cardChild,
-  }) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    heading,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                if (showEdit)
-                  ElevatedButton(
-                    onPressed: () => showSnackbar(
-                      context,
-                      content: 'Functionality pending',
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                    ),
-                    child: const Text(
-                      edit,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-            Flexible(child: cardChild),
           ],
         ),
       ),
