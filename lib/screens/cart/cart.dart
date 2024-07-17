@@ -47,6 +47,9 @@ class Cart extends StatelessWidget {
                         xController.updateCartList(
                           context,
                           productId: xController.cartList[index].id!,
+                          availableQuantity:
+                              xController.cartList[index].availableQuantity ??
+                                  0,
                           action: action,
                         );
                       },

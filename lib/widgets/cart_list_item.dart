@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../core/enums.dart';
 import '../models/product.dart';
 import '../screens/product_details/product_details.dart';
+import 'quantity_adjuster.dart';
 
 class CartListItem extends StatelessWidget {
   const CartListItem({
@@ -118,55 +119,13 @@ class CartListItem extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          Row(
-            children: [
-              buildQuantityAdjusterButton(
-                context,
-                action: QuantityAction.decrease,
-              ),
-              const SizedBox(width: 20),
-              Text(
-                quantity.toString(),
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(width: 20),
-              buildQuantityAdjusterButton(
-                context,
-                action: QuantityAction.increase,
-              ),
-            ],
-          ),
+          QuantityAdjuster(
+            quantity: quantity.toString(),
+            onUpdateQuantity: (action) => onPressed(action: action),
+            buttonSize: 8,
+            qtyFontSize: 16,
+          )
         ],
-      ),
-    );
-  }
-
-  Widget buildQuantityAdjusterButton(BuildContext context,
-      {required QuantityAction action}) {
-    return SizedBox(
-      height: 30,
-      width: 48,
-      child: TextButton(
-        onPressed: () {
-          onPressed(
-            action: action,
-          );
-        },
-        style: TextButton.styleFrom(
-          backgroundColor:
-              Theme.of(context).colorScheme.primary.withOpacity(0.2),
-          alignment: Alignment.center,
-        ),
-        child: Center(
-          child: Icon(
-            action == QuantityAction.decrease ? Icons.remove : Icons.add,
-            color: Theme.of(context).colorScheme.primary,
-            size: 16,
-          ),
-        ),
       ),
     );
   }

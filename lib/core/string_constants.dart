@@ -54,6 +54,8 @@ const String details = 'Details';
 const String add = 'Add';
 const String productDetails = 'Product details';
 const String productLimitExceed = 'You\'ve reached maximum product limit.';
+const String outOfStock =
+    'Sorry! The product is currently unavailable at this moment.';
 const String addedAddress = 'Address added.';
 const String address = 'Address';
 const String contactDetails = 'Contact Details';
@@ -129,3 +131,4 @@ const String profileUpdateSuccess = 'Profile updated successfully';
 const String anonymousUser = 'Anonymous user';
 const String defaultProfileImagePath = 'assets/images/profile_pic.png';
 const String uploadPhoto = 'Upload Photo';
+const String currentlyUnavailable = 'Currently Unavailable';

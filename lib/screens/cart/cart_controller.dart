@@ -33,9 +33,26 @@ class CartController extends GetxController {
   Future<void> updateCartList(
     BuildContext context, {
     required int productId,
+    required int availableQuantity,
     int quantity = 1,
     QuantityAction action = QuantityAction.increase,
   }) async {
+    if (availableQuantity == 0) {
+      showSnackbar(
+        context,
+        content: outOfStock,
+      );
+      return;
+    }
+
+    if (action != QuantityAction.decrease && quantity >= availableQuantity) {
+      showSnackbar(
+        context,
+        content: productLimitExceed,
+      );
+      return;
+    }
+
     AmazonDialog.showLoaderDialog(context);
 
     await updateProductQuantityInCartList(

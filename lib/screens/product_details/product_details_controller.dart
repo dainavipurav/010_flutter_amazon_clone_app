@@ -28,10 +28,22 @@ class ProductDetailsController extends GetxController {
     Navigator.pop(context);
   }
 
-  void updateQuantity(BuildContext context, {required QuantityAction action}) {
+  void updateQuantity(
+    BuildContext context, {
+    required QuantityAction action,
+    required int availableQuantity,
+  }) {
+    if (availableQuantity == 0) {
+      showSnackbar(
+        context,
+        content: outOfStock,
+      );
+      return;
+    }
+
     switch (action) {
       case QuantityAction.increase:
-        if (quantity.value == 100) {
+        if (quantity.value == availableQuantity) {
           showSnackbar(
             context,
             content: productLimitExceed,
@@ -56,7 +68,16 @@ class ProductDetailsController extends GetxController {
   Future<void> addToCart(
     BuildContext context, {
     required int productId,
+    required int availableQuantity,
   }) async {
+    if (availableQuantity == 0) {
+      showSnackbar(
+        context,
+        content: outOfStock,
+      );
+      return;
+    }
+
     AmazonDialog.showLoaderDialog(context);
 
     await updateProductQuantityInCartList(

@@ -1,9 +1,10 @@
+import 'package:assorted_layout_widgets/assorted_layout_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../core/enums.dart';
 import '../../core/utils.dart';
 import '../../models/product.dart';
+import '../../widgets/quantity_adjuster.dart';
 import 'product_details_controller.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -39,7 +40,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           children: [
             prducImage(),
             productName(),
-            adjustQuantityPanel(),
+            productActionPanel(),
             productSpecificationsPanel(),
           ],
         ),
@@ -114,61 +115,50 @@ class _ProductDetailsState extends State<ProductDetails> {
     );
   }
 
-  Widget adjustQuantityPanel() {
+  Widget productActionPanel() {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(20),
-        child: Row(
-          children: [
-            Row(
-              children: [
-                buildQuantityAdjusterButton(
-                  action: QuantityAction.decrease,
-                ),
-                const SizedBox(width: 20),
-                Obx(
-                  () => Text(
-                    xController.quantity.value.toString(),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 20),
-                buildQuantityAdjusterButton(
-                  action: QuantityAction.increase,
-                ),
-              ],
-            ),
-            const Spacer(),
-            addToCartButton(),
-          ],
+        child: (widget.product.availableQuantity ?? 0) == 0
+            ? currenlyUnavailable()
+            : adjustQuantityPanel(),
+      ),
+    );
+  }
+
+  Widget currenlyUnavailable() {
+    return const Center(
+      child: TextOneLine(
+        currentlyUnavailable,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+          color: Colors.red,
         ),
       ),
     );
   }
 
-  Widget buildQuantityAdjusterButton({required QuantityAction action}) {
-    return SizedBox(
-      height: 36,
-      width: 60,
-      child: TextButton(
-        onPressed: () => xController.updateQuantity(
-          context,
-          action: action,
+  Widget adjustQuantityPanel() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Obx(
+            () => QuantityAdjuster(
+              quantity: xController.quantity.value.toString(),
+              buttonSize: 12,
+              qtyFontSize: 18,
+              onUpdateQuantity: (action) => xController.updateQuantity(
+                context,
+                availableQuantity: widget.product.availableQuantity ?? 0,
+                action: action,
+              ),
+            ),
+          ),
         ),
-        style: TextButton.styleFrom(
-          backgroundColor:
-              Theme.of(context).colorScheme.primary.withOpacity(0.2),
-          alignment: Alignment.center,
-        ),
-        child: Icon(
-          action == QuantityAction.decrease ? Icons.remove : Icons.add,
-          color: Theme.of(context).colorScheme.primary,
-          size: 20,
-        ),
-      ),
+        addToCartButton(),
+      ],
     );
   }
 
@@ -176,13 +166,14 @@ class _ProductDetailsState extends State<ProductDetails> {
     return ElevatedButton(
       onPressed: () async => xController.addToCart(
         context,
+        availableQuantity: widget.product.availableQuantity ?? 0,
         productId: widget.product.id!,
       ),
       style: ElevatedButton.styleFrom(
         backgroundColor: Theme.of(context).colorScheme.primary,
         alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(
-          horizontal: 40,
+          horizontal: 20,
           vertical: 14,
         ),
       ),
