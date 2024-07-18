@@ -7,7 +7,8 @@ import '../../core/order_details.dart';
 import '../../core/utils.dart';
 import '../../models/ordered_product.dart';
 import '../../models/product.dart';
-import '../address/address_details.dart';
+import '../../widgets/select_address.dart';
+import '../saved_address_list/saved_address_list_controller.dart';
 
 class CartController extends GetxController {
   RxList<Product> products = RxList<Product>();
@@ -81,7 +82,7 @@ class CartController extends GetxController {
     }
   }
 
-  void proceedToBuy(BuildContext context) {
+  void proceedToBuy(BuildContext context) async {
     OrderDetails.selectedProducts.clear();
     OrderDetails.totalAmount = subTotal.value;
 
@@ -98,11 +99,9 @@ class CartController extends GetxController {
       print('Ordered Product : ${element.toJson()}');
     }
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const AddressDetails(),
-      ),
+    await showModalBottomSheet(
+      context: context,
+      builder: (ctx) => SelectAddress(),
     );
   }
 }

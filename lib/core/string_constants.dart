@@ -135,3 +135,7 @@ const String uploadPhoto = 'Upload Photo';
 const String currentlyUnavailable = 'Currently Unavailable';
 const String savedAddresses = 'Saved Addresses';
 const String noSavedAddresses = 'No Saved Address Found';
+const String selectAddress = 'Select Address';
+const String addNewAddress = 'Add New Address';
+const String updateAddressSuccess = 'Address updated successfully.';
+// const String selectAddress = 'Select Address';

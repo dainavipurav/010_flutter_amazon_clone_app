@@ -3,13 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../core/enums.dart';
-import '../../core/order_details.dart';
 import '../../core/utils.dart';
 import '../../models/address.dart';
-import '../payment_method/payment_method.dart';
+import '../saved_address_list/saved_address_list_controller.dart';
 
 class AddressDetailsController extends GetxController {
   final formKey = GlobalKey<FormState>();
+
+  static AddressDetailsController to() =>
+      Get.isRegistered<AddressDetailsController>()
+          ? Get.find<AddressDetailsController>()
+          : Get.put(AddressDetailsController());
 
   Rxn<AddressType> selectedAddressOption = Rxn();
 
@@ -27,6 +31,27 @@ class AddressDetailsController extends GetxController {
   final cityFocusNode = FocusNode();
   final stateFocusNode = FocusNode();
   final mobileFocusNode = FocusNode();
+
+  RxnString addressId = RxnString();
+
+  Rx<AddressActionType> addressActionType =
+      Rx<AddressActionType>(AddressActionType.add);
+
+  void initializePrefilledValued({
+    required String prefilledAddresId,
+    required Address prefilledData,
+  }) {
+    addressActionType.value = AddressActionType.update;
+    addressId.value = prefilledAddresId;
+    nameController.text = prefilledData.username ?? '';
+    pincodeController.text = prefilledData.pincode ?? '';
+    addressController.text = prefilledData.address ?? '';
+    localityController.text = prefilledData.locality ?? '';
+    cityController.text = prefilledData.city ?? '';
+    stateController.text = prefilledData.state ?? '';
+    mobileController.text = prefilledData.mobile ?? '';
+    selectedAddressOption.value = prefilledData.type;
+  }
 
   @override
   void dispose() {
@@ -103,12 +128,10 @@ class AddressDetailsController extends GetxController {
       selectedAddressOption.value = null;
       clearFocus();
       clearformFields();
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const PaymentMethod(),
-        ),
-      );
+
+      SavedAddressListController.to().getAllSavedAddresses();
+
+      Navigator.pop(context);
     }
   }
 
@@ -132,11 +155,13 @@ class AddressDetailsController extends GetxController {
         type: selectedAddressOption.value,
       );
 
-      OrderDetails.addressId = generateRandomKey(documentRefData.data() ?? {});
+      if (addressActionType.value == AddressActionType.add ||
+          addressActionType.value == AddressActionType.addAndSelect ||
+          addressId.value == null) {
+        addressId.value = generateRandomKey(documentRefData.data() ?? {});
+      }
 
-      Map<String, dynamic> addMap = {
-        OrderDetails.addressId!: finalAddress.toJson()
-      };
+      Map<String, dynamic> addMap = {addressId.value!: finalAddress.toJson()};
 
       if (documentRefData.data() == null) {
         dbRef.set(addMap);
@@ -144,11 +169,20 @@ class AddressDetailsController extends GetxController {
         dbRef.update(addMap);
       }
 
-      OrderDetails.address = finalAddress;
+      if (addressActionType.value == AddressActionType.addAndSelect ||
+          addressActionType.value == AddressActionType.updateAndSelect) {
+        SavedAddressListController.to().onAddressSelect(
+          updatedAddress: finalAddress,
+          updatedAddressId: addressId.value ?? '',
+        );
+      }
 
       showSnackbar(
         context,
-        content: addedAddress,
+        content: addressActionType.value == AddressActionType.update ||
+                addressActionType.value == AddressActionType.updateAndSelect
+            ? updateAddressSuccess
+            : addedAddress,
       );
       return;
     } on FirebaseException catch (e) {
@@ -159,6 +193,4 @@ class AddressDetailsController extends GetxController {
       return;
     }
   }
-
-  void checkout() {}
 }

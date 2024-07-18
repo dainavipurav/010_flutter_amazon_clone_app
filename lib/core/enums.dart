@@ -35,3 +35,10 @@ enum ImagePickerType {
   camera,
   remove,
 }
+
+enum AddressActionType {
+  add,
+  update,
+  addAndSelect,
+  updateAndSelect,
+}

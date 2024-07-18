@@ -26,7 +26,10 @@ class Account extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (ctx) => SavedAddressList(),
+                builder: (ctx) => const SavedAddressList(
+                  showEdit: true,
+                  showRadio: false,
+                ),
               ),
             );
           },
