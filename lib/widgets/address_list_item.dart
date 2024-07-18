@@ -7,16 +7,20 @@ class AddressListItem extends StatelessWidget {
   final Address address;
   final bool showEdit;
   final bool showRadio;
+  final bool showDelete;
   final bool? isSelected;
   final void Function()? onEditClick;
+  final void Function()? onDeleteClick;
   final void Function()? onCardSelect;
   const AddressListItem({
     super.key,
     required this.address,
     this.showEdit = false,
     this.showRadio = false,
+    this.showDelete = false,
     this.onCardSelect,
     this.onEditClick,
+    this.onDeleteClick,
     this.isSelected = false,
   });
 
@@ -27,8 +31,10 @@ class AddressListItem extends StatelessWidget {
       isSelected: isSelected,
       onCardSelect: onCardSelect,
       onEditClick: onEditClick,
+      onDeleteClick: onDeleteClick,
       showEdit: showEdit,
       showRadio: showRadio,
+      showDelete: showDelete,
       child: addressDetails(),
     );
   }

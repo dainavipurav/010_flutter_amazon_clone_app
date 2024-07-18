@@ -59,6 +59,7 @@ class SelectAddress extends StatelessWidget {
       child: SavedAddressListWidget(
         showEdit: false,
         showRadio: true,
+        showDelete: false,
       ),
     );
   }

@@ -8,7 +8,6 @@ import '../../core/utils.dart';
 import '../../models/ordered_product.dart';
 import '../../models/product.dart';
 import '../../widgets/select_address.dart';
-import '../saved_address_list/saved_address_list_controller.dart';
 
 class CartController extends GetxController {
   RxList<Product> products = RxList<Product>();

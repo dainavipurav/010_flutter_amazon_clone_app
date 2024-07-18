@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../core/dialog.dart';
 import '../../core/order_details.dart';
 import '../../core/utils.dart';
 import '../../models/address.dart';
@@ -90,5 +91,30 @@ class SavedAddressListController extends GetxController {
     OrderDetails.address = selectedAddres.value;
 
     Navigator.of(context).pop();
+  }
+
+  Future<void> deleteAddress(BuildContext context,
+      {required String addressId}) async {
+    AmazonDialog.showLoaderDialog(context);
+    final currentUser = firebaseAuth.currentUser!;
+    final dbRef = firebaseFirestore
+        .collection(userAddressCollectionKey)
+        .doc(currentUser.uid);
+
+    final documentRefData = await dbRef.get();
+
+    if (documentRefData.data() == null) {
+      return;
+    }
+
+    final savedAddressData = documentRefData.data() ?? {};
+
+    savedAddressData.remove(addressId);
+
+    await dbRef.set(savedAddressData);
+
+    getAllSavedAddresses();
+
+    Navigator.pop(context);
   }
 }

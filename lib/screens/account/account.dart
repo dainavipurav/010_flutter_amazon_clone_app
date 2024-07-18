@@ -29,6 +29,7 @@ class Account extends StatelessWidget {
                 builder: (ctx) => const SavedAddressList(
                   showEdit: true,
                   showRadio: false,
+                  showDelete: true,
                 ),
               ),
             );

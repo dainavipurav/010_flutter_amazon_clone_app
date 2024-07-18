@@ -5,6 +5,7 @@ import '../../core/order_details.dart';
 import '../../core/utils.dart';
 import '../../widgets/bottom_gadient.dart';
 import '../../widgets/detail_card.dart';
+import '../../widgets/select_address.dart';
 import 'order_confirmation_controller.dart';
 
 class OrderConfirmation extends StatelessWidget {
@@ -28,6 +29,13 @@ class OrderConfirmation extends StatelessWidget {
                 DetailCard(
                   heading: shippingDetails,
                   showEdit: true,
+                  showDelete: false,
+                  showRadio: false,
+                  editText: change,
+                  onEditClick: () async => await showModalBottomSheet(
+                    context: context,
+                    builder: (ctx) => SelectAddress(),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
@@ -63,6 +71,8 @@ class OrderConfirmation extends StatelessWidget {
                 DetailCard(
                   heading: paymentMethod,
                   showEdit: true,
+                  showDelete: false,
+                  showRadio: false,
                   child: Text(
                     getPaymentMethodName(OrderDetails.paymentMethod),
                     style: const TextStyle(

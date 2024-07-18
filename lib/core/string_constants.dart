@@ -138,4 +138,5 @@ const String noSavedAddresses = 'No Saved Address Found';
 const String selectAddress = 'Select Address';
 const String addNewAddress = 'Add New Address';
 const String updateAddressSuccess = 'Address updated successfully.';
-// const String selectAddress = 'Select Address';
+const String delete = 'Delete';
+const String change = 'Change';

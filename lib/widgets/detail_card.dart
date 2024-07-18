@@ -6,9 +6,12 @@ class DetailCard extends StatelessWidget {
   final String heading;
   final Widget child;
   final bool showEdit;
+  final bool showDelete;
   final bool showRadio;
   final bool? isSelected;
+  final String? editText;
   final void Function()? onEditClick;
+  final void Function()? onDeleteClick;
   final void Function()? onCardSelect;
   const DetailCard({
     super.key,
@@ -16,8 +19,11 @@ class DetailCard extends StatelessWidget {
     required this.child,
     this.showEdit = false,
     this.showRadio = false,
+    this.showDelete = false,
+    this.editText = edit,
     this.onCardSelect,
     this.onEditClick,
+    this.onDeleteClick,
     this.isSelected = false,
   });
 
@@ -51,14 +57,18 @@ class DetailCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          if (showEdit) editButton(context),
-          if (showRadio) radioButton(context),
+          editButton(context),
+          deleteButton(context),
+          radioButton(context),
         ],
       ),
     );
   }
 
   Widget radioButton(BuildContext context) {
+    if (!showRadio) {
+      return const SizedBox();
+    }
     return IconButton(
       onPressed: onCardSelect,
       icon: Icon(
@@ -92,20 +102,50 @@ class DetailCard extends StatelessWidget {
       return const SizedBox();
     }
 
-    return ElevatedButton(
-      onPressed: onEditClick,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        foregroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: ElevatedButton(
+        onPressed: onEditClick,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+        ),
+        child: Text(
+          editText!,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
         ),
       ),
-      child: const Text(
-        edit,
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
+    );
+  }
+
+  Widget deleteButton(BuildContext context) {
+    if (!showDelete) {
+      return const SizedBox();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: ElevatedButton(
+        onPressed: onDeleteClick,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+        ),
+        child: const Text(
+          delete,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
         ),
       ),
     );

@@ -11,9 +11,11 @@ class SavedAddressListWidget extends StatelessWidget {
     super.key,
     this.showEdit = false,
     this.showRadio = false,
+    this.showDelete = false,
   });
   final bool showEdit;
   final bool showRadio;
+  final bool showDelete;
 
   final xController = SavedAddressListController.to();
 
@@ -58,6 +60,13 @@ class SavedAddressListWidget extends StatelessWidget {
                   : () => xController.onEditAddress(
                         context,
                         address: value,
+                        addressId: key,
+                      ),
+              showDelete: showDelete,
+              onDeleteClick: !showDelete
+                  ? null
+                  : () => xController.deleteAddress(
+                        context,
                         addressId: key,
                       ),
               showRadio: showRadio,
