@@ -6,15 +6,11 @@ import '../../core/utils.dart';
 import '../../widgets/bottom_gadient.dart';
 import 'payment_method_controller.dart';
 
-class PaymentMethod extends StatefulWidget {
-  const PaymentMethod({super.key});
+class PaymentMethod extends StatelessWidget {
+  PaymentMethod({super.key});
 
-  @override
-  State<PaymentMethod> createState() => _PaymentMethodState();
-}
-
-class _PaymentMethodState extends State<PaymentMethod> {
   final xController = Get.put(PaymentMethodController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +29,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 Column(
                   children: PaymentType.values
                       .map(
-                        (e) => paymentMethodItem(getPaymentMethodName(e), e),
+                        (e) => paymentMethodItem(
+                            context, getPaymentMethodName(e), e),
                       )
                       .toList(),
                 ),
@@ -43,14 +40,15 @@ class _PaymentMethodState extends State<PaymentMethod> {
             const BottomGradient(
               height: 80,
             ),
-            proceedToCheckout(),
+            proceedToCheckout(context),
           ],
         ),
       ),
     );
   }
 
-  Widget paymentMethodItem(String text, PaymentType type) {
+  Widget paymentMethodItem(
+      BuildContext context, String text, PaymentType type) {
     return Obx(
       () {
         return InkWell(
@@ -85,7 +83,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
     );
   }
 
-  Widget proceedToCheckout() {
+  Widget proceedToCheckout(BuildContext context) {
     return Positioned(
       left: 0,
       right: 0,

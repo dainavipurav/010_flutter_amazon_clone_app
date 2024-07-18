@@ -16,7 +16,7 @@ class Account extends StatelessWidget {
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (ctx) => const Profile(),
+                builder: (ctx) => Profile(),
               ),
             );
           },

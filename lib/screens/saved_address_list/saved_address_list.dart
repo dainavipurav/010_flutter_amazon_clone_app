@@ -30,7 +30,7 @@ class SavedAddressList extends StatelessWidget {
         child: const Icon(Icons.add),
         onPressed: () => Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (ctx) => const AddressDetails(),
+            builder: (ctx) => AddressDetails(),
           ),
         ),
       ),

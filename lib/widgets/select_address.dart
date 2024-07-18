@@ -32,7 +32,7 @@ class SelectAddress extends StatelessWidget {
         onPressed: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const AddressDetails(),
+            builder: (context) => AddressDetails(),
           ),
         ),
         style: ElevatedButton.styleFrom(

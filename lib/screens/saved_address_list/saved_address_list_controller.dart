@@ -77,7 +77,7 @@ class SavedAddressListController extends GetxController {
     );
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const AddressDetails(),
+        builder: (context) => AddressDetails(),
       ),
     );
   }

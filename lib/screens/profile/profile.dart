@@ -5,25 +5,14 @@ import '../../core/utils.dart';
 import '../../widgets/no_data_found.dart';
 import 'profile_controller.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({super.key});
+class Profile extends StatelessWidget {
+  Profile({super.key});
 
-  @override
-  State<Profile> createState() => _ProfileState();
-}
-
-class _ProfileState extends State<Profile> {
   final xController = Get.put(ProfileController());
 
   @override
-  void initState() {
-    xController.getUserDetails();
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    xController.getUserDetails();
     return Scaffold(
       appBar: AppBar(
         title: const Text(profile),
@@ -43,9 +32,9 @@ class _ProfileState extends State<Profile> {
                     vertical: 10,
                   ),
                   children: [
-                    profileImage(),
+                    profileImage(context),
                     const SizedBox(height: 20),
-                    editButton(),
+                    editButton(context),
                     const SizedBox(height: 20),
                     section(firstName,
                         xController.userDetails.value.firstName ?? '-'),
@@ -74,7 +63,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget editButton() {
+  Widget editButton(BuildContext context) {
     return Align(
       alignment: Alignment.center,
       child: ElevatedButton(
@@ -101,7 +90,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget profileImage() {
+  Widget profileImage(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,

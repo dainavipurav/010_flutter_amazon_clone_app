@@ -6,23 +6,14 @@ import '../../core/enums.dart';
 import '../../core/utils.dart';
 import 'profile_controller.dart';
 
-class EditProfile extends StatefulWidget {
-  const EditProfile({super.key});
+class EditProfile extends StatelessWidget {
+  EditProfile({super.key});
 
-  @override
-  State<EditProfile> createState() => _EditProfileState();
-}
-
-class _EditProfileState extends State<EditProfile> {
   final xController = Get.find<ProfileController>();
-  @override
-  void initState() {
-    xController.initializeAllControllers();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
+    xController.initializeAllControllers();
     return Scaffold(
       appBar: AppBar(
         title: const Text(editProfile),
@@ -48,7 +39,7 @@ class _EditProfileState extends State<EditProfile> {
               const SizedBox(height: 40),
               genderField(),
               const SizedBox(height: 40),
-              save(),
+              save(context),
             ],
           ),
         ),
@@ -164,7 +155,7 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  Widget save() {
+  Widget save(BuildContext context) {
     return Obx(
       () {
         return ElevatedButton(

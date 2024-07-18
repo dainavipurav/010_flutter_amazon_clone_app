@@ -52,7 +52,7 @@ class ProfileController extends GetxController {
   void goToEditProfilePage(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const EditProfile(),
+        builder: (context) => EditProfile(),
       ),
     );
   }

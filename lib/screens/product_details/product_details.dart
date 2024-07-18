@@ -7,29 +7,19 @@ import '../../models/product.dart';
 import '../../widgets/quantity_adjuster.dart';
 import 'product_details_controller.dart';
 
-class ProductDetails extends StatefulWidget {
+class ProductDetails extends StatelessWidget {
   final Product product;
-  const ProductDetails({super.key, required this.product});
+  ProductDetails({super.key, required this.product});
 
-  @override
-  State<ProductDetails> createState() => _ProductDetailsState();
-}
-
-class _ProductDetailsState extends State<ProductDetails> {
   final xController = Get.put(ProductDetailsController());
 
   @override
-  void initState() {
+  Widget build(BuildContext context) {
     xController.quantity.value = 0;
     xController.loadfavorites(context);
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.product.name ?? productDetails),
+        title: Text(product.name ?? productDetails),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(
@@ -38,9 +28,9 @@ class _ProductDetailsState extends State<ProductDetails> {
         ),
         child: Column(
           children: [
-            prducImage(),
+            prducImage(context),
             productName(),
-            productActionPanel(),
+            productActionPanel(context),
             productSpecificationsPanel(),
           ],
         ),
@@ -48,13 +38,13 @@ class _ProductDetailsState extends State<ProductDetails> {
     );
   }
 
-  Widget prducImage() {
+  Widget prducImage(BuildContext context) {
     return Card(
       clipBehavior: Clip.antiAlias,
       child: Stack(
         children: [
           Image.network(
-            widget.product.image ?? '',
+            product.image ?? '',
             height: MediaQuery.of(context).size.width - 60,
             width: double.infinity,
             fit: BoxFit.cover,
@@ -63,10 +53,10 @@ class _ProductDetailsState extends State<ProductDetails> {
             () => IconButton(
               onPressed: () => xController.updateFavoriteList(
                 context,
-                id: widget.product.id!,
+                id: product.id!,
               ),
               icon: Icon(
-                xController.favList.contains(widget.product.id!)
+                xController.favList.contains(product.id!)
                     ? Icons.favorite_rounded
                     : Icons.favorite_border_rounded,
               ),
@@ -84,7 +74,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         children: [
           Expanded(
             child: Text(
-              widget.product.name ?? '',
+              product.name ?? '',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -100,7 +90,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 color: Colors.grey,
               ),
               Text(
-                widget.product.price.toString(),
+                product.price.toString(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
@@ -115,13 +105,13 @@ class _ProductDetailsState extends State<ProductDetails> {
     );
   }
 
-  Widget productActionPanel() {
+  Widget productActionPanel(BuildContext context) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(20),
-        child: (widget.product.availableQuantity ?? 0) == 0
+        child: (product.availableQuantity ?? 0) == 0
             ? currenlyUnavailable()
-            : adjustQuantityPanel(),
+            : adjustQuantityPanel(context),
       ),
     );
   }
@@ -139,7 +129,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     );
   }
 
-  Widget adjustQuantityPanel() {
+  Widget adjustQuantityPanel(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -151,23 +141,23 @@ class _ProductDetailsState extends State<ProductDetails> {
               qtyFontSize: 18,
               onUpdateQuantity: (action) => xController.updateQuantity(
                 context,
-                availableQuantity: widget.product.availableQuantity ?? 0,
+                availableQuantity: product.availableQuantity ?? 0,
                 action: action,
               ),
             ),
           ),
         ),
-        addToCartButton(),
+        addToCartButton(context),
       ],
     );
   }
 
-  Widget addToCartButton() {
+  Widget addToCartButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () async => xController.addToCart(
         context,
-        availableQuantity: widget.product.availableQuantity ?? 0,
-        productId: widget.product.id!,
+        availableQuantity: product.availableQuantity ?? 0,
+        productId: product.id!,
       ),
       style: ElevatedButton.styleFrom(
         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -204,7 +194,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           ),
           const SizedBox(height: 10),
           Text(
-            widget.product.description ?? '',
+            product.description ?? '',
             style: const TextStyle(
               fontSize: 14,
             ),

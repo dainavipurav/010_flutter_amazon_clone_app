@@ -5,8 +5,8 @@ import '../core/enums.dart';
 import '../core/utils.dart';
 import '../screens/profile/profile_controller.dart';
 
-class ImagePickerSelection extends StatefulWidget {
-  const ImagePickerSelection({
+class ImagePickerSelection extends StatelessWidget {
+  ImagePickerSelection({
     super.key,
     this.onTap,
     this.showRemoveImageOption = true,
@@ -15,11 +15,6 @@ class ImagePickerSelection extends StatefulWidget {
   final void Function(ImagePickerType)? onTap;
   final bool showRemoveImageOption;
 
-  @override
-  State<ImagePickerSelection> createState() => _ImagePickerSelectionState();
-}
-
-class _ImagePickerSelectionState extends State<ImagePickerSelection> {
   final xController = Get.find<ProfileController>();
 
   @override
@@ -50,7 +45,7 @@ class _ImagePickerSelectionState extends State<ImagePickerSelection> {
           height: 0,
         ),
         listItemLayout(type: ImagePickerType.files),
-        if (widget.showRemoveImageOption) ...[
+        if (showRemoveImageOption) ...[
           Divider(
             color: Colors.grey.withOpacity(0.5),
             height: 0,
@@ -71,7 +66,7 @@ class _ImagePickerSelectionState extends State<ImagePickerSelection> {
       minVerticalPadding: 0,
       title: Text(type.name.capitalizeFirst ?? ''),
       leading: Icon(getIcon(type)),
-      onTap: () => widget.onTap!(type),
+      onTap: () => onTap!(type),
     );
   }
 

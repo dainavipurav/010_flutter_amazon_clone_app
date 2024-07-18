@@ -7,15 +7,11 @@ import '../../core/utils.dart';
 import '../../widgets/bottom_gadient.dart';
 import 'address_details_controller.dart';
 
-class AddressDetails extends StatefulWidget {
-  const AddressDetails({super.key});
+class AddressDetails extends StatelessWidget {
+  AddressDetails({super.key});
 
-  @override
-  State<AddressDetails> createState() => _AddressDetailsState();
-}
-
-class _AddressDetailsState extends State<AddressDetails> {
   final xController = Get.put(AddressDetailsController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +49,7 @@ class _AddressDetailsState extends State<AddressDetails> {
                         const SizedBox(height: 10),
                         Row(
                           children: AddressType.values.map((element) {
-                            return optionButton(element);
+                            return optionButton(context, element);
                           }).toList(),
                         ),
                         const SizedBox(height: 40),
@@ -237,7 +233,7 @@ class _AddressDetailsState extends State<AddressDetails> {
     );
   }
 
-  Widget optionButton(AddressType option) {
+  Widget optionButton(BuildContext context, AddressType option) {
     return Obx(
       () {
         return Expanded(
