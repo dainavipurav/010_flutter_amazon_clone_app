@@ -49,6 +49,10 @@ class SavedAddressListController extends GetxController {
   }
 
   void initializeSelectedAddressVariables() {
+    if (OrderDetails.address == null || OrderDetails.addressId == null) {
+      return;
+    }
+
     selectedAddres.value = OrderDetails.address;
     selectedAddresId.value = OrderDetails.addressId;
   }
