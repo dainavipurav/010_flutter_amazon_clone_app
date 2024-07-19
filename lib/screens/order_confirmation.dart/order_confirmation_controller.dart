@@ -3,13 +3,36 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:razorpay_web/razorpay_web.dart';
 
+import '../../core/enums.dart';
 import '../../core/order_details.dart';
 import '../../core/utils.dart';
+import '../../models/address.dart';
 import '../../models/order.dart';
+import '../../widgets/select_address.dart';
+import '../../widgets/select_payment_method.dart';
 import '../order_success/order_success.dart';
 
 class OrderConfirmationController extends GetxController {
+  static OrderConfirmationController to() =>
+      Get.isRegistered<OrderConfirmationController>()
+          ? Get.find<OrderConfirmationController>()
+          : Get.put(OrderConfirmationController());
+
   var razorpay = Razorpay();
+  RxnString selectedAddressId = RxnString(OrderDetails.addressId);
+  Rxn<Address> selectedAddress = Rxn<Address>(OrderDetails.address);
+  Rxn<PaymentType> selectedPaymentMethod =
+      Rxn<PaymentType>(OrderDetails.paymentMethod);
+
+  void updateAddress(
+      {required String updatedAddressId, required Address updatedAddress}) {
+    selectedAddress.value = updatedAddress;
+    selectedAddressId.value = updatedAddressId;
+  }
+
+  void updatePaymentMethod({required PaymentType updatedPaymentMethod}) {
+    selectedPaymentMethod.value = updatedPaymentMethod;
+  }
 
   @override
   void dispose() {
@@ -111,5 +134,28 @@ class OrderConfirmationController extends GetxController {
       BuildContext context, ExternalWalletResponse response) {
     // Do something when an external wallet is selected
     showSnackbar(context, content: paymentWallet);
+  }
+
+  void onChangeAddress(BuildContext context) async {
+    await showModalBottomSheet(
+      context: context,
+      builder: (ctx) => SelectAddress(
+        onSelectAddress: () {
+          selectedAddress.value = OrderDetails.address;
+          selectedAddressId.value = OrderDetails.addressId;
+        },
+      ),
+    );
+  }
+
+  void onChangePaymentMethod(BuildContext context) async {
+    await showModalBottomSheet(
+      context: context,
+      builder: (ctx) => SelectPaymentMethod(
+        onSelectPaymentMethod: () {
+          selectedPaymentMethod.value = OrderDetails.paymentMethod;
+        },
+      ),
+    );
   }
 }

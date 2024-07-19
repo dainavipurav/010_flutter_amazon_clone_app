@@ -7,43 +7,55 @@ import '../../widgets/bottom_gadient.dart';
 import 'payment_method_controller.dart';
 
 class PaymentMethod extends StatelessWidget {
-  PaymentMethod({super.key});
+  final bool showPage;
+  PaymentMethod({super.key, this.showPage = false});
 
   final xController = Get.put(PaymentMethodController());
 
   @override
   Widget build(BuildContext context) {
+    if (showPage == false) {
+      return paymentMethodsList(context);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(paymentMethod),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 20,
-          vertical: 10,
-        ),
-        child: Stack(
-          children: [
-            ListView(
-              children: [
-                Column(
-                  children: PaymentType.values
-                      .map(
-                        (e) => paymentMethodItem(
-                            context, getPaymentMethodName(e), e),
-                      )
-                      .toList(),
-                ),
-                const SizedBox(height: 120),
-              ],
-            ),
-            const BottomGradient(
-              height: 80,
-            ),
-            proceedToCheckout(context),
-          ],
-        ),
+      body: contentBody(context),
+    );
+  }
+
+  Widget contentBody(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 10,
       ),
+      child: Stack(
+        children: [
+          paymentMethodsList(context),
+          const BottomGradient(
+            height: 80,
+          ),
+          proceedToCheckout(context),
+        ],
+      ),
+    );
+  }
+
+  Widget paymentMethodsList(BuildContext context) {
+    return ListView(
+      children: [
+        Column(
+          children: PaymentType.values
+              .map(
+                (e) => paymentMethodItem(context, getPaymentMethodName(e), e),
+              )
+              .toList(),
+        ),
+        const SizedBox(height: 120),
+      ],
     );
   }
 

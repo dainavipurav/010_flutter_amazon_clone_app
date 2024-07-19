@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../core/utils.dart';
 import '../models/address.dart';
 import 'detail_card.dart';
 
@@ -9,6 +10,7 @@ class AddressListItem extends StatelessWidget {
   final bool showRadio;
   final bool showDelete;
   final bool? isSelected;
+  final String? editText;
   final void Function()? onEditClick;
   final void Function()? onDeleteClick;
   final void Function()? onCardSelect;
@@ -18,6 +20,7 @@ class AddressListItem extends StatelessWidget {
     this.showEdit = false,
     this.showRadio = false,
     this.showDelete = false,
+    this.editText = edit,
     this.onCardSelect,
     this.onEditClick,
     this.onDeleteClick,
@@ -34,6 +37,7 @@ class AddressListItem extends StatelessWidget {
       onDeleteClick: onDeleteClick,
       showEdit: showEdit,
       showRadio: showRadio,
+      editText: editText,
       showDelete: showDelete,
       child: addressDetails(),
     );

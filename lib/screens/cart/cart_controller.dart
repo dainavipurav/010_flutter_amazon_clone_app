@@ -8,6 +8,8 @@ import '../../core/utils.dart';
 import '../../models/ordered_product.dart';
 import '../../models/product.dart';
 import '../../widgets/select_address.dart';
+import '../../widgets/select_payment_method.dart';
+import '../order_confirmation.dart/order_confirmation.dart';
 
 class CartController extends GetxController {
   RxList<Product> products = RxList<Product>();
@@ -100,7 +102,22 @@ class CartController extends GetxController {
 
     await showModalBottomSheet(
       context: context,
-      builder: (ctx) => SelectAddress(),
+      builder: (ctx) => SelectAddress(
+        onSelectAddress: () async {
+          await showModalBottomSheet(
+            context: context,
+            builder: (ctx) => SelectPaymentMethod(
+              onSelectPaymentMethod: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const OrderConfirmation(),
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 }

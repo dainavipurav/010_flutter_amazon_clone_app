@@ -7,6 +7,11 @@ import '../../core/utils.dart';
 import '../order_confirmation.dart/order_confirmation.dart';
 
 class PaymentMethodController extends GetxController {
+  static PaymentMethodController to() =>
+      Get.isRegistered<PaymentMethodController>()
+          ? Get.find<PaymentMethodController>()
+          : Get.put(PaymentMethodController());
+
   Rxn<PaymentType> selectedPaymentType = Rxn();
 
   void makePayment(BuildContext context) {
@@ -25,5 +30,10 @@ class PaymentMethodController extends GetxController {
         builder: (context) => const OrderConfirmation(),
       ),
     );
+  }
+
+  void updateDeliveryPaymentMethod(BuildContext context) {
+    OrderDetails.paymentMethod = selectedPaymentType.value!;
+    Navigator.of(context).pop();
   }
 }

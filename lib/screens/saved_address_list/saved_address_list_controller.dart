@@ -82,7 +82,7 @@ class SavedAddressListController extends GetxController {
     );
   }
 
-  void updateDeliveryAddress(BuildContext context) {
+  Future<void> updateDeliveryAddress(BuildContext context) async {
     if (selectedAddres.value == null || selectedAddresId.value == null) {
       return;
     }

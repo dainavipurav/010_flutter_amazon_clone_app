@@ -2,18 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../core/utils.dart';
-import '../screens/address/address_details.dart';
-import '../screens/saved_address_list/saved_address_list_controller.dart';
-import '../screens/saved_address_list/saved_address_list_widget.dart';
+import '../screens/payment_method/payment_method.dart';
+import '../screens/payment_method/payment_method_controller.dart';
 
-class SelectAddress extends StatelessWidget {
-  final xController = SavedAddressListController.to();
-  final void Function()? onSelectAddress;
+class SelectPaymentMethod extends StatelessWidget {
+  SelectPaymentMethod({super.key, this.onSelectPaymentMethod});
 
-  SelectAddress({
-    super.key,
-    this.onSelectAddress,
-  });
+  final void Function()? onSelectPaymentMethod;
+  final xController = PaymentMethodController.to();
 
   @override
   Widget build(BuildContext context) {
@@ -24,46 +20,15 @@ class SelectAddress extends StatelessWidget {
         children: [
           header(context),
           body(),
-          footer(context),
         ],
-      ),
-    );
-  }
-
-  Widget footer(BuildContext context) {
-    return Center(
-      child: ElevatedButton(
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => AddressDetails(),
-          ),
-        ),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14),
-          ),
-          padding: const EdgeInsets.all(17),
-        ),
-        child: const Text(
-          addNewAddress,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-        ),
       ),
     );
   }
 
   Widget body() {
     return Flexible(
-      child: SavedAddressListWidget(
-        showEdit: false,
-        showRadio: true,
-        showDelete: false,
+      child: PaymentMethod(
+        showPage: false,
       ),
     );
   }
@@ -83,13 +48,12 @@ class SelectAddress extends StatelessWidget {
   Widget continueButton(BuildContext context) {
     return Obx(() {
       return ElevatedButton(
-        onPressed: xController.selectedAddres.value == null ||
-                xController.selectedAddresId.value == null
+        onPressed: xController.selectedPaymentType.value == null
             ? null
             : () {
-                xController.updateDeliveryAddress(context);
-                if (onSelectAddress != null) {
-                  onSelectAddress!();
+                xController.updateDeliveryPaymentMethod(context);
+                if (onSelectPaymentMethod != null) {
+                  onSelectPaymentMethod!();
                 }
               },
         style: ElevatedButton.styleFrom(
