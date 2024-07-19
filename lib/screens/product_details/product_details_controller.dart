@@ -89,4 +89,8 @@ class ProductDetailsController extends GetxController {
 
     Navigator.pop(context);
   }
+
+  void shareProductDetails(BuildContext context) {
+    print('share');
+  }
 }

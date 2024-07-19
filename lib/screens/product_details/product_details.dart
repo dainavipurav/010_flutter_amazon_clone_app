@@ -59,7 +59,22 @@ class ProductDetails extends StatelessWidget {
                 xController.favList.contains(product.id!)
                     ? Icons.favorite_rounded
                     : Icons.favorite_border_rounded,
+                size: 28,
+                color: xController.favList.contains(product.id!)
+                    ? Colors.red[300]
+                    : Colors.white70,
               ),
+            ),
+          ),
+          Positioned(
+            right: 0,
+            child: IconButton(
+              onPressed: () => xController.shareProductDetails(context),
+              icon: const Icon(
+                Icons.share_outlined,
+                size: 28,
+              ),
+              color: Colors.white70,
             ),
           ),
         ],

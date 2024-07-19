@@ -56,7 +56,7 @@ class SearchListItem extends StatelessWidget {
         onPressed: onPressed,
         icon: Icon(
           isFavorite ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-          color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
+          color: isFavorite ? Colors.red[300] : null,
         ),
       ),
     );
